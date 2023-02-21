@@ -12,11 +12,9 @@ import logging.config
 import os.path as path # https://docs.python.org/3/library/os.path.html
 
 
-
-
 class File:
-    def __init__(self, fileID, name):
-        self.fileID = fileID
+    def __init__(self, name):
+        self.fileID = 0 # will be assigned
         self.name = name
 
     def getAccount(self):
@@ -63,7 +61,7 @@ def uploadFile(userpath):
             raise ValueError("Upload fail")
     else:
         raise ValueError("File does not exist")
-        
+
 
 def main():
 
