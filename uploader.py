@@ -41,20 +41,36 @@ class User:
         pass
 
     
+def login(username, password):
+    # stub
+    user_exists = True
+    password_incorrect = False
+    if(user_exists):
+        if(password_incorrect):
+            return 0
+        else:
+            raise ValueError("Password incorrect")
+    else:
+        raise ValueError("User does not exist")
 
 def uploadFile(userpath):
     if(path.exists(userpath)):
-        return 0
+        # check upload
+        upload_successful = False
+        if(upload_successful):
+            return 0
+        else:
+            raise ValueError("Upload fail")
     else:
         raise ValueError("File does not exist")
+        
 
-# def main():
+def main():
 
-#     # uploadFile("hello")
-#     pass
-
+    pass
 
 
-# if __name__ == "__main__":
-#     main()
+
+if __name__ == "__main__":
+    main()
 
