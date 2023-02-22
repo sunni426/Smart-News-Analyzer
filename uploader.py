@@ -54,7 +54,7 @@ def login(username, password):
 def uploadFile(userpath):
     if(path.exists(userpath)):
         # check upload
-        upload_successful = False
+        upload_successful = True
         if(upload_successful):
             return 0
         else:
