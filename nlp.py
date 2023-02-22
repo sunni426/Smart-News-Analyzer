@@ -18,6 +18,7 @@ class NLPFile(File):
         self.syntax = [] # or some sort of struct? 
         self.semantics = []
         self.sentiment = []
+        self.keywords = []
 
     def getTest(self, fileID):
         # parse uploaded file into text format (a string) of class NLPFile, with new field
@@ -25,7 +26,7 @@ class NLPFile(File):
     
     def analyzeSyntax(self):
         # these fields will be stored in the syntax member of NLPFile
-        keywords = []
+        keywords_syntax = []
         names = []
         locations = []
         institutions = []
@@ -47,7 +48,7 @@ class NLPFile(File):
 
     def analyzeSemantics(self):
         # these fields will be stored in the semantics member of NLPFile
-        keywords = []
+        keywords_semantics = []
         summaries = []
         labels = []
 
