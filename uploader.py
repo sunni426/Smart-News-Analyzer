@@ -20,13 +20,12 @@ class File:
     def getAccount(self):
         pass
 
-    # def 
 
 
 # associated with user
 class User:
-    def __init__(self, accountID, name):
-        self.accountID = accountID;
+    def __init__(self, userID, name):
+        self.userID = userID;
         self.name = name;
 
     def setPassword(self):
@@ -39,17 +38,17 @@ class User:
         pass
 
     
-def login(username, password):
-    # stub
-    user_exists = True
-    password_incorrect = False
-    if(user_exists):
-        if(password_incorrect):
-            return 0
-        else:
-            raise ValueError("Password incorrect")
-    else:
-        raise ValueError("User does not exist")
+# def login(username, password):
+#     # stub
+#     user_exists = True
+#     password_incorrect = False
+#     if(user_exists):
+#         if(password_incorrect):
+#             return 0
+#         else:
+#             raise ValueError("Password incorrect")
+#     else:
+#         raise ValueError("User does not exist")
 
 def uploadFile(userpath):
     if(path.exists(userpath)):
@@ -61,6 +60,10 @@ def uploadFile(userpath):
             raise ValueError("Upload fail")
     else:
         raise ValueError("File does not exist")
+
+# when you upload, have a uri: up to cloud. 
+
+
 
 
 def main():
