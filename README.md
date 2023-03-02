@@ -1,6 +1,7 @@
-# Sunni Lin: EC530 Project 2 Phase 1 & 2
+# Sunni Lin: EC530 Project 2 Phases 1 & 2
 
-## Phase 1 Project planning: https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/edit
+## Phase 1 Project planning: 
+https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/edit
 
 
 ## Phase 2: DB Design
@@ -12,7 +13,7 @@ Design Qs to consider --> us designing our use cases!
     only own
 3) File system --> drive? path/storage location? ex. Azure --> block storage "organization structure"
 4) Keywords by paragraph or whole text?
-5) Entities in files: paragaph, whole text. & their indivdual attributes?
+5) Entities in files: paragraph, whole text. & their individual attributes?
 
 
 ### DESIGN (subject to change upon implementation!)
@@ -33,7 +34,7 @@ This design choice is based on the straightforward relationship between users an
     - link/path (some sort of connection to the document analysis, perhaps drive/cloud link)
 
 **Document Database: MongoDB for 1) Documents (ie files)**
-1) Documents: A document-based, non-structured NoSQL DB may be useful here to store the different analyses results of each file (document). With this, the DB can support non-linear relationships and hierarchical nature of syntax, semantics, sentiment, and other analyses results. Struture by the following:
+1) Documents: A document-based, non-structured NoSQL DB may be useful here to store the different analyses results of each file (document). With this, the DB can support non-linear relationships and hierarchical nature of syntax, semantics, sentiment, and other analyses results. Structure by the following:
     Some design choices:
         1. In collection, will have a document (with more fields) for syntax analysis, a document for sentiment analysis, and a document for semantics analysis
         2. Entities: whole text & paragraphs
@@ -78,9 +79,10 @@ This design choice is based on the straightforward relationship between users an
 
 
 
-Other pending design choices/considertions:
+Other pending design choices/considerations:
 - a status field?
-- for many:many (users:files), add PrimaryUser/Owner?
+- Want many:many (users:files)? If so, add PrimaryUser/Owner?
+    if storing analysis results (ex. of a news article), may be a good option
 - linking the SQLite and MongoDB content together
 
 
