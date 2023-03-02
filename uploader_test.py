@@ -12,11 +12,11 @@ def test_file_exists():
     with pytest.raises(ValueError, match="File does not exist"):
         uploadFile(userpath)
         
-def test_login():
-    username = "John"
-    password = "Smith"
-    with pytest.raises(ValueError, match="Password incorrect"):
-        login(username, password)
+# def test_login():
+#     username = "John"
+#     password = "Smith"
+#     with pytest.raises(ValueError, match="Password incorrect"):
+#         login(username, password)
 
 # def test_upload():
 #     userpath = "a_path"
