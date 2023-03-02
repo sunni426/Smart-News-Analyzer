@@ -1,9 +1,9 @@
 # Sunni Lin: EC530 Project 2 Phase 1 & 2
 
-Phase 1 Project planning: https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/edit
+## Phase 1 Project planning: https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/edit
 
 
-Phase 2: DB Design
+## Phase 2: DB Design
 
 Design Qs to consider --> us designing our use cases!
 1) Should we analyze on the spot or not? (consider: storage etc)
@@ -14,7 +14,9 @@ Design Qs to consider --> us designing our use cases!
 4) Keywords by paragraph or whole text?
 5) Entities in files: paragaph, whole text. & their indivdual attributes?
 
-Relational Database: SQLite for 1) Users (Accounts), 2) Files
+
+### DESIGN (subject to change upon implementation!)
+**Relational Database: SQLite for 1) Users (Accounts), 2) File**
 This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.
 1) Users: A relational database is useful here. We store a table of users, identifiable by user_id as the primary key. Each record includes:
     - userID (primary key)
@@ -28,9 +30,9 @@ This design choice is based on the straightforward relationship between users an
     - textFile (readable by code: converted to text from original --> binary text file)
     - fileFormat (pdf, csv, jpeg etc.)
     - lastModified (timestamp)
-    - link/path (some sort of connection to the document analysis) -- perhaps common Drive link or just the fileID?
+    - link/path (some sort of connection to the document analysis, perhaps drive/cloud link)
 
-Document Database: MongoDB for 1) Documents (ie files)
+**Document Database: MongoDB for 1) Documents (ie files)**
 1) Documents: A document-based, non-structured NoSQL DB may be useful here to store the different analyses results of each file (document). With this, the DB can support non-linear relationships and hierarchical nature of syntax, semantics, sentiment, and other analyses results. Struture by the following:
     Some design choices:
         1. In collection, will have a document (with more fields) for syntax analysis, a document for sentiment analysis, and a document for semantics analysis
@@ -73,9 +75,13 @@ Document Database: MongoDB for 1) Documents (ie files)
 }
 
 
+
+
+
 Other pending design choices/considertions:
 - a status field?
 - for many:many (users:files), add PrimaryUser/Owner?
+- linking the SQLite and MongoDB content together
 
 
 Supplementary/Notes
