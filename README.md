@@ -36,7 +36,7 @@ This design choice is based on the straightforward relationship between users an
 **Document Database: MongoDB for 1) Documents (ie files)**
 1) Documents: A document-based, non-structured NoSQL DB may be useful here to store the different analyses results of each file (document). With this, the DB can support non-linear relationships and hierarchical nature of syntax, semantics, sentiment, and other analyses results. Structure by the following:
     Some design choices:
-        1. In collection, will have a document (with more fields) for syntax analysis, a document for sentiment analysis, and a document for semantics analysis
+        1. In collection, will have a document (with more fields) for syntax analysis and a document for content analysis
         2. Entities: whole text & paragraphs
         3. For whole text, have Keywords (up to 10), Summary, overallSentiment
         4. For paragraphs, have Keyword (just 1), sentiment (just 1)
