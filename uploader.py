@@ -10,12 +10,12 @@ import cProfile, pstats
 import logging
 import logging.config
 import os.path as path # https://docs.python.org/3/library/os.path.html
-# import mysql.connector # need: pip install mysql-connector-python
 import sqlite3
 
-# implicitly creating users.db if not in cwd 
-news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
-news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+MAX_USERS = 1000 # max number users the system can support. can change values
+userid = 1
+# userid_list = []
+
 
 # files_con = sqlite3.connect("files.db")
 # files_cur = files_con.cursor() 
@@ -29,13 +29,36 @@ class File:
         pass
 
 
-
 # associated with user
 class User:
-    def __init__(self, userID, name):
-        self.userID = userID;
-        self.name = name;
+    def __init__(self, name): # let userID be internal to this func and not as a param, 3/19
+        # implicitly creating users.db if not in cwd 
+        news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+        news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
 
+        # if userid not in userid_list:
+        global userid 
+        if userid < MAX_USERS:
+            self.userID = userid
+            # userid_list.append(userid)
+            # To change the value of a global variable inside a function, refer to the variable by using the global keyword
+            userid += 1
+            self.name = name
+            insert_data = [self.userID, self.name]
+            
+            print(f'self.userID: {self.userID}, self.name: {self.name}')
+            try:
+                news_cur.execute("INSERT INTO user VALUES (?, ?)", insert_data)
+                news_con.commit()
+            except news_con.Error:
+                # Rolling back in case of error
+                print('user db insertion error')
+                news_con.rollback()
+        else:
+            raise ValueError("Maximum number of users, storage full")
+        news_con.close()
+
+        
     def setPassword(self):
         pass
     
@@ -44,6 +67,17 @@ class User:
 
     def findFile(self, fileID):
         pass
+
+    def uploadFile(self, userpath):
+        if(path.exists(userpath)):
+        # check upload
+            upload_successful = True
+            if(upload_successful):
+                return 0
+            else:
+                raise ValueError("Upload fail")
+        else:
+            raise ValueError("File does not exist")
 
     
 # def login(username, password):
@@ -58,16 +92,16 @@ class User:
 #     else:
 #         raise ValueError("User does not exist")
 
-def uploadFile(userpath):
-    if(path.exists(userpath)):
-        # check upload
-        upload_successful = True
-        if(upload_successful):
-            return 0
-        else:
-            raise ValueError("Upload fail")
-    else:
-        raise ValueError("File does not exist")
+# def uploadFile(userpath):
+#     if(path.exists(userpath)):
+#         # check upload
+#         upload_successful = True
+#         if(upload_successful):
+#             return 0
+#         else:
+#             raise ValueError("Upload fail")
+#     else:
+#         raise ValueError("File does not exist")
 
 # when you upload, have a uri: up to cloud. 
 
@@ -76,7 +110,10 @@ def uploadFile(userpath):
 
 def main():
 
-    pass
+    # pass
+
+    User("Name1")
+    User("Name2")
 
 
 

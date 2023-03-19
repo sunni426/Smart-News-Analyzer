@@ -16,7 +16,8 @@ Design Qs to consider --> us designing our use cases!
 5) Entities in files: paragraph, whole text. & their individual attributes?
 
 ## Phase 3: DB Implementation
-
+1) In sqlite, initialized database news with 2 tables: users and files
+2) In MongoDB (?)
 
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**

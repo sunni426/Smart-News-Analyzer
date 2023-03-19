@@ -11,8 +11,14 @@ import sqlite3
 def test_file_exists():
     userpath = "hello!!!"
     with pytest.raises(ValueError, match="File does not exist"):
-        uploadFile(userpath)
+        user1 = User("Name1")
+        user1.uploadFile(userpath)
         
+
+def test_user_init():
+    with pytest.raises(ValueError, match="Maximum number of users, storage full"):
+        user2 = User("Name2")
+
 # def test_login():
 #     username = "John"
 #     password = "Smith"
