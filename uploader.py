@@ -10,7 +10,15 @@ import cProfile, pstats
 import logging
 import logging.config
 import os.path as path # https://docs.python.org/3/library/os.path.html
+# import mysql.connector # need: pip install mysql-connector-python
+import sqlite3
 
+# implicitly creating users.db if not in cwd 
+news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+
+# files_con = sqlite3.connect("files.db")
+# files_cur = files_con.cursor() 
 
 class File:
     def __init__(self, name):

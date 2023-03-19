@@ -15,6 +15,8 @@ Design Qs to consider --> us designing our use cases!
 4) Keywords by paragraph or whole text?
 5) Entities in files: paragraph, whole text. & their individual attributes?
 
+## Phase 3: DB Implementation
+
 
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**

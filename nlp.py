@@ -9,6 +9,7 @@ import tracemalloc
 import cProfile, pstats
 import logging
 import logging.config
+import sqlite3
 
 # fileID should be stored internally
 class NLPFile(File):

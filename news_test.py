@@ -5,6 +5,7 @@ import pytest
 import tracemalloc
 import logging
 import logging.config
+import sqlite3
 
 
 def test_getKeywords():
