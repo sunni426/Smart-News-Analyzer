@@ -17,7 +17,10 @@ Design Qs to consider --> us designing our use cases!
 
 ## Phase 3: DB Implementation
 1) In sqlite, initialized database news with 2 tables: users and files
-2) In MongoDB (?)
+2) To implement analysis results, initialize tables in SQLite
+    - syntax
+    - sentiment
+    - semantic
 
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
@@ -97,3 +100,4 @@ SQL: not that good for "search-for-field"
 - Azure Storage Blob is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data. Unstructured data is data that does not adhere to a particular data model or definition, such as text or binary data. https://azure.microsoft.com/en-us/products/storage/blobs 
 - good correspondence between SQL & NoSQL DB! (& good MongoDB tutorial) https://medium.com/nerd-for-tech/all-basics-of-mongodb-in-10-minutes-baddaf6b6625 
 - https://docs.python.org/3/library/sqlite3.html 
+- https://github.com/mongodb-developer/pymongo-fastapi-crud 

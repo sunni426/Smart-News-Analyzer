@@ -56,8 +56,9 @@ class User:
                 news_con.commit()
             except news_con.Error:
                 # Rolling back in case of error
-                raise ValueError("user DB insertion error")
+                # print('user db insertion error')
                 news_con.rollback()
+                raise ValueError("user DB insertion error")
         else:
             raise ValueError("Maximum number of users, storage full")
 

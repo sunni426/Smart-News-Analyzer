@@ -21,23 +21,12 @@ def test_file_exists():
         
 
 def test_user_init():
-    userpath = "a/path"
-    with pytest.raises(ValueError, match="File does not exist") or pytest.raises(ValueError, match="user DB insertion error") or pytest.raises(ValueError, match="Maximum number of users, storage full"):
-        user2 = User("Name2")
-        user2.uploadFile(userpath)
-
-# def test_login():
-#     username = "John"
-#     password = "Smith"
-#     with pytest.raises(ValueError, match="Password incorrect"):
-#         login(username, password)
+    # with pytest.raises(ValueError, match="user DB insertion error"):
+    user5 = User("Name5")
+        
 
 def test_upload():
     userpath = "news-analyzer-sunni426"
-    # with pytest.raises(ValueError, match="Upload fail"):
-    #     uploadFile(userpath)
-    # with pytest.raises(ValueError, match="File does not exist"):
-    #     uploadFile(userpath)
-    # with pytest.raises(ValueError, match="Upload fail") or pytest.raises(ValueError, match="File does not exist"):
-    #     uploadFile(userpath)
-    # # Q: if there are multiple check assertions (raise value errors) in one function, how to handle that as a unit test?
+    user3 = User("Name3")
+    with pytest.raises(ValueError, match="File does not exist"):
+        user3.uploadFile(userpath)
