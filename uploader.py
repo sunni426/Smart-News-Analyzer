@@ -14,7 +14,7 @@ import sqlite3
 
 MAX_USERS = 1000 # max number users the system can support. can change values
 userid = 1
-# userid_list = []
+userid_list = []
 
 
 # files_con = sqlite3.connect("files.db")
@@ -32,12 +32,14 @@ class File:
 # associated with user
 class User:
     def __init__(self, name): # let userID be internal to this func and not as a param, 3/19
+        
         # implicitly creating users.db if not in cwd 
         news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
         news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
-
-        # if userid not in userid_list:
         global userid 
+
+        if userid in userid_list:
+            userid += 1
         if userid < MAX_USERS:
             self.userID = userid
             # userid_list.append(userid)
@@ -45,17 +47,20 @@ class User:
             userid += 1
             self.name = name
             insert_data = [self.userID, self.name]
+
+            userid_list.append(userid)
             
-            print(f'self.userID: {self.userID}, self.name: {self.name}')
+            # print(f'self.userID: {self.userID}, self.name: {self.name}')
             try:
                 news_cur.execute("INSERT INTO user VALUES (?, ?)", insert_data)
                 news_con.commit()
             except news_con.Error:
                 # Rolling back in case of error
-                print('user db insertion error')
+                raise ValueError("user DB insertion error")
                 news_con.rollback()
         else:
             raise ValueError("Maximum number of users, storage full")
+
         news_con.close()
 
         
@@ -110,13 +115,12 @@ class User:
 
 def main():
 
-    # pass
+    pass
 
-    User("Name1")
-    User("Name2")
+    # User("Name1")
+    # User("Name2")
 
 
 
 if __name__ == "__main__":
     main()
-
