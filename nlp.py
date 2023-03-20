@@ -20,6 +20,7 @@ class NLPFile(File):
         self.semantics = []
         self.sentiment = []
         self.keywords = []
+        File.__init__(self,filename)
 
     def getTest(self, fileID):
         # parse uploaded file into text format (a string) of class NLPFile, with new field
@@ -66,6 +67,7 @@ class NLPFile(File):
 
         news_con.close()
 
+
     def analyzeSemantics(self, para_no):
         # these fields will be stored in the semantics member of NLPFile
         keywords_semantics = []
@@ -78,11 +80,15 @@ class NLPFile(File):
         news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
         news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
         
-        insert_data = [self.fileID, para_no, summary, keywords_semantics[0], keywords_semantics[1]]
+        summaries.append('this text is about analyzing the meaning of this document.')
+        keywords_semantics.append('meaning')
+        keywords_semantics.append('analysis')
+        # print(f'\n\nsummaries[0]: {summaries[0]}\n\n')
+        insert_data = [self.fileID, para_no, summaries[para_no], keywords_semantics[0], keywords_semantics[1]]
 
         # insert syntax analysis into DB
         try:
-            news_cur.execute("INSERT INTO syntax VALUES (?, ?, ?, ?, ?)", insert_data)
+            news_cur.execute("INSERT INTO semantic VALUES (?, ?, ?, ?, ?)", insert_data)
             news_con.commit()
         except news_con.Error:
             # Rolling back in case of error
@@ -116,7 +122,7 @@ class NLPFile(File):
 
         # insert syntax analysis into DB
         try:
-            news_cur.execute("INSERT INTO syntax VALUES (?, ?, ?)", insert_data)
+            news_cur.execute("INSERT INTO sentiment VALUES (?, ?, ?)", insert_data)
             news_con.commit()
         except news_con.Error:
             # Rolling back in case of error

@@ -27,8 +27,11 @@ DB Implementation Schematic:
 <img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
 
 * Note: run unit tests sequentially for correct 
-* Note: run "python -m db_del" to delete database amd start over
-initializations: uploader_test --> nlp_test --> news_test
+* Note: to start running unit tests (automated in actions script)
+    Step 1: run "python -m db_del" to delete possibly existing database in path and start over
+    Step 2: run "python -m db_init" to initialize database
+    Step 3: run "pytests"
+    
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
 This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.

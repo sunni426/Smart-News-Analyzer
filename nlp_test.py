@@ -9,17 +9,17 @@ import sqlite3
 
 
 def test_syntax():
-    file1 = NLPFile("file1")
+    file1 = NLPFile("file1_nlp")
     with pytest.raises(ValueError, match="Syntax analysis failed"):
         file1.analyzeSyntax()
         
 def test_semantics():
-    file1 = NLPFile("file1")
+    file2 = NLPFile("file2_nlp")
     with pytest.raises(ValueError, match="Semantics analysis failed"):
-        file1.analyzeSemantics(0)       
+        file2.analyzeSemantics(0)       
 
 def test_sentiment():
-    file1 = NLPFile("file1")
+    file3 = NLPFile("file3_nlp")
     with pytest.raises(ValueError, match="Sentiment analysis failed"):
-        file1.analyzeSentiment(0)
+        file3.analyzeSentiment(0)
         

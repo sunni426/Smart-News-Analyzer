@@ -14,20 +14,12 @@ import sqlite3
 # import db_init
 
 MAX_USERS = 1000 # max number users the system can support. can change values
+MAX_FILES = 10 # max number files each user can have. can change values
 userid = 1
 userid_list = []
+fileid = 1
+fileid_list = []
 
-
-# files_con = sqlite3.connect("files.db")
-# files_cur = files_con.cursor() 
-
-class File:
-    def __init__(self, name):
-        self.fileID = 0 # will be assigned
-        self.name = name
-
-    def getAccount(self):
-        pass
 
 
 # associated with user
@@ -86,31 +78,53 @@ class User:
         else:
             raise ValueError("File does not exist")
 
-    
-# def login(username, password):
-#     # stub
-#     user_exists = True
-#     password_incorrect = False
-#     if(user_exists):
-#         if(password_incorrect):
-#             return 0
-#         else:
-#             raise ValueError("Password incorrect")
-#     else:
-#         raise ValueError("User does not exist")
+    def login(self):
+        pass
 
-# def uploadFile(userpath):
-#     if(path.exists(userpath)):
-#         # check upload
-#         upload_successful = True
-#         if(upload_successful):
-#             return 0
-#         else:
-#             raise ValueError("Upload fail")
-#     else:
-#         raise ValueError("File does not exist")
+ 
+class File:
+    def __init__(self, filename):
+        self.fileID = 0 # will be assigned
+        self.userID = 0;  # how to link userID here?
+        self.name = filename
+        self.fileformat = 'pdf'
+        self.filepath = 'a/path'
+        self.lastmodified = 'March-19-2023'
 
-# when you upload, have a uri: up to cloud. 
+        # implicitly creating users.db if not in cwd 
+        news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+        news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+        global fileid 
+
+        if fileid in fileid_list:
+            fileid += 1
+        if fileid < MAX_FILES:
+            self.fileID = fileid
+            # userid_list.append(userid)
+            # To change the value of a global variable inside a function, refer to the variable by using the global keyword
+            fileid += 1
+            self.name = filename
+            insert_data = [self.fileID, self.userID, self.filename, self.fileformat, self.filepath, self.lastmodified]
+
+            fileid_list.append(fileid)
+            
+            try:
+                news_cur.execute("INSERT INTO file VALUES (?, ?, ?, ?, ?, ?)", insert_data)
+                news_con.commit()
+            except news_con.Error:
+                # Rolling back in case of error
+                # print('user db insertion error')
+                news_con.rollback()
+                raise ValueError("file DB insertion error")
+        else:
+            raise ValueError("Maximum number of files, storage full")
+
+        news_con.close()
+
+    def getAccount(self):
+        pass
+
+
 
 
 
