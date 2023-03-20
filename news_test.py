@@ -7,6 +7,7 @@ import logging
 import logging.config
 import sqlite3
 
+# to discuss: add a table to store this or not?
 
 def test_getKeywords():
     file1 = NewsFile("file1")

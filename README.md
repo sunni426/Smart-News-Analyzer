@@ -45,7 +45,7 @@ Sample Syntax Parser Entry
 
     
     
-### DESIGN (subject to change upon implementation!)
+### DESIGN
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
 This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.
 1) Users: A relational database is useful here. We store a table of users, identifiable by user_id as the primary key. We have the following tables:
@@ -95,3 +95,4 @@ SQL: not that good for "search-for-field"
 
 Other Notes
 - DELETE from syntax WHERE fileID = 0
+- to figure out next time: userID linking to files, whether want fileupload to take filepath or File obj as arg, & actual processing implementation
