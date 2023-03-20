@@ -23,7 +23,8 @@ Design Qs to consider --> us designing our use cases!
     - semantic
 
 DB Implementation Schematic:
-![alt text](/Users/sunni426/EC530/news-analyzer-sunni426)
+
+<img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
 
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
