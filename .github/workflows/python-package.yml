@@ -28,7 +28,7 @@ jobs:
         run: python db_del.py
         shell: sh
       - name: Create database
-        run: python ${{ env.DEVOPS_DIR }}/db_init.py
+        run: python db_init.py
         shell: sh
 
       # - name: Lint with flake8
