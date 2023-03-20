@@ -25,7 +25,7 @@ jobs:
           pip install flake8 pytest
           pip install -r requirements.txt
       - name: Delete database
-        run: python ${{ env.DEVOPS_DIR }}/db_del.py
+        run: python db_del.py
         shell: sh
       - name: Create database
         run: python ${{ env.DEVOPS_DIR }}/db_init.py
