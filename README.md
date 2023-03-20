@@ -23,7 +23,6 @@ Design Qs to consider --> us designing our use cases!
     - semantic
 
 DB Implementation Schematic:
-
 <img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
 
 * Note: run unit tests sequentially for correct 
@@ -32,10 +31,17 @@ DB Implementation Schematic:
     Step 2: run "python -m db_init" to initialize database
     Step 3: run "pytests"
     
+Sample File Entry
+<img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
+
+Sample Syntax Parser Entry
+<img width="349" alt="file_entry" src="https://user-images.githubusercontent.com/85393645/226230415-335cc4bd-d20a-45e4-a53f-8e98a7333f82.png">
+
+    
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
 This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.
-1) Users: A relational database is useful here. We store a table of users, identifiable by user_id as the primary key. Each record includes:
+1) Users: A relational database is useful here. We store a table of users, identifiable by user_id as the primary key. We have the following tables:
     - userID (primary key)
     - userName
     - (some link to files)
@@ -48,58 +54,25 @@ This design choice is based on the straightforward relationship between users an
     - fileFormat (pdf, csv, jpeg etc.)
     - lastModified (timestamp)
     - link/path (some sort of connection to the document analysis, perhaps drive/cloud link)
-
-**Document Database: MongoDB for 1) Documents (ie files)**
-1) Documents: A document-based, non-structured NoSQL DB may be useful here to store the different analyses results of each file (document). With this, the DB can support non-linear relationships and hierarchical nature of syntax, semantics, sentiment, and other analyses results. Structure by the following:
-    Some design choices:
-        1. In collection, will have a document (with more fields) for syntax analysis and a document for content analysis
-        2. Entities: whole text & paragraphs
-        3. For whole text, have Keywords (up to 10), Summary, overallSentiment
-        4. For paragraphs, have Keyword (just 1), sentiment (just 1)
-
-{
-   _id: fileID(7df78ad8902c)
-   fileName: 'Document1', 
-   fileDescription: 'Document 1 in user Sunni',
-   userID: '012345',
-   path: 'https://azure.microsoft.com/en-us/products/storage/blobs', <!-- path on drive/cloud -->
-   keywords: ['mongodb', 'database', 'NoSQL'],
-    <!-- syntax/overall -->
-   overall: [	
-        {
-            numParagraphs:'user1',
-            numLines: 'My first comment',
-            numCharacters: 10
-            dateCreated: new Date(2011,1,25,7,45)
-            summary: 'whole-text summary'
-        },
-    ]
-    <!-- organized by paragraph: sentiment & semantics analysis -->
-    analysis: [	
-        {
-            paragraph: 1,
-            sentiment: 'positive',
-            keyword: 'database', <!-- only 1 keyword for each paragraph -->
-            summary: 'mongodb is good'
-        },
-        {
-            paragraph: 2,
-            sentiment: 'negative',
-            keyword: 'bad',
-            summary: 'mongodb is bad'
-        }
-    ]
-}
-
-
-
-
-
-Other pending design choices/considerations:
-- a status field?
-- Want many:many (users:files)? If so, add PrimaryUser/Owner?
-    if storing analysis results (ex. of a news article), may be a good option
-- linking the SQLite and MongoDB content together
+3) Syntax --> analyze by whole document/file
+    - fileID
+    - number of paragraphs
+    - number of words
+    - date created
+    - file summary
+    - keyword 1
+    - keyword 2
+    - keyword 3
+4) Semantic --> analyze by paragraph
+    - fileID
+    - paragraph #
+    - summary
+    - keyword 1
+    - keyword 2
+5) Sentiment --> analyze by paragraph
+    - fileID
+    - paragraph #
+    - sentiment (positive, negative, or neutral)
 
 
 Supplementary/Notes
