@@ -35,12 +35,13 @@ DB Implementation Schematic:
     
 Sample File Entry
 
-<img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
+<img width="349" alt="file_entry" src="https://user-images.githubusercontent.com/85393645/226230415-335cc4bd-d20a-45e4-a53f-8e98a7333f82.png">
 
 
 Sample Syntax Parser Entry
 
-<img width="349" alt="file_entry" src="https://user-images.githubusercontent.com/85393645/226230415-335cc4bd-d20a-45e4-a53f-8e98a7333f82.png">
+<img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
+
 
     
     
