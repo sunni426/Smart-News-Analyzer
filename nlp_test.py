@@ -16,10 +16,10 @@ def test_syntax():
 def test_semantics():
     file1 = NLPFile("file1")
     with pytest.raises(ValueError, match="Semantics analysis failed"):
-        file1.analyzeSemantics()       
+        file1.analyzeSemantics(0)       
 
 def test_sentiment():
     file1 = NLPFile("file1")
     with pytest.raises(ValueError, match="Sentiment analysis failed"):
-        file1.analyzeSentiment()
+        file1.analyzeSentiment(0)
         

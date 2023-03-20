@@ -14,7 +14,7 @@ def main():
     news_cur.execute("CREATE TABLE file(fileID, userID, filename, fileformat, filepath, lastmodified)")
 
     # create table syntax
-    news_cur.execute("CREATE TABLE syntax(fileID, totpara, totchar, datecreated, summary, keyword1, keyword2, keyword3)")
+    news_cur.execute("CREATE TABLE syntax(fileID, totpara, totword, datecreated, summary, keyword1, keyword2, keyword3)")
 
     # create table sentiment, by paragraph
     news_cur.execute("CREATE TABLE sentiment(fileID, numpara, sentiment)")

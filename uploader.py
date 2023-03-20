@@ -11,6 +11,7 @@ import logging
 import logging.config
 import os.path as path # https://docs.python.org/3/library/os.path.html
 import sqlite3
+# import db_init
 
 MAX_USERS = 1000 # max number users the system can support. can change values
 userid = 1

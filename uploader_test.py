@@ -9,8 +9,8 @@ import sqlite3
 
 import db_init
 
-# def test_db_init():
-#     db_init;
+def test_db_init():
+    db_init.main();
 
 
 def test_file_exists():

@@ -26,6 +26,9 @@ DB Implementation Schematic:
 
 <img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
 
+* Note: run unit tests sequentially for correct 
+* Note: run "python -m db_del" to delete database amd start over
+initializations: uploader_test --> nlp_test --> news_test
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
 This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.
@@ -105,3 +108,7 @@ SQL: not that good for "search-for-field"
 - good correspondence between SQL & NoSQL DB! (& good MongoDB tutorial) https://medium.com/nerd-for-tech/all-basics-of-mongodb-in-10-minutes-baddaf6b6625 
 - https://docs.python.org/3/library/sqlite3.html 
 - https://github.com/mongodb-developer/pymongo-fastapi-crud 
+
+
+Other Notes
+- DELETE from syntax WHERE fileID = 0

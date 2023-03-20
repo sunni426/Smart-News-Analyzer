@@ -13,9 +13,9 @@ import sqlite3
 
 # fileID should be stored internally
 class NLPFile(File):
-    def __init__(self, name):
+    def __init__(self, filename):
         self.fileID = 0 # will be assigned
-        self.name = name
+        self.filename = filename
         self.syntax = [] # or some sort of struct? 
         self.semantics = []
         self.sentiment = []
@@ -26,18 +26,36 @@ class NLPFile(File):
         pass
     
     def analyzeSyntax(self):
-        # these fields will be stored in the syntax member of NLPFile
-        keywords_syntax = []
-        names = []
-        locations = []
-        institutions = []
-        address = []
-        paragraph_count = 0
-        word_count = 0
-        line_count = 0
 
-        # to put: parsing implementation
-        # storing in syntax
+        # implicitly creating users.db if not in cwd 
+        news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+        news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+        
+        # parsing analysis implementation
+        # these fields will be stored in the syntax member of NLPFile after NLP
+        keywords_syntax = ['word1','word2','word3']
+        # names = []
+        # locations = []
+        # institutions = []
+        # address = []
+        paragraph_count = 2
+        word_count = 100
+        date_created = "March-18-2023"
+        summary = "this is the implementation of test nlp of smart doc uploader"
+        # line_count = 0
+
+        insert_data = [self.fileID, paragraph_count, word_count, 
+                date_created, summary, keywords_syntax[0], keywords_syntax[1], keywords_syntax[2]]
+
+        # insert syntax analysis into DB
+        try:
+            news_cur.execute("INSERT INTO syntax VALUES (?, ?, ?, ?, ?, ?, ?, ?)", insert_data)
+            news_con.commit()
+        except news_con.Error:
+            # Rolling back in case of error
+            # print('user db insertion error')
+            news_con.rollback()
+            raise ValueError("user DB insertion error")
 
         syntax_fail = True
 
@@ -46,8 +64,9 @@ class NLPFile(File):
         else:
             return 0;
 
+        news_con.close()
 
-    def analyzeSemantics(self):
+    def analyzeSemantics(self, para_no):
         # these fields will be stored in the semantics member of NLPFile
         keywords_semantics = []
         summaries = []
@@ -55,6 +74,21 @@ class NLPFile(File):
 
         # to put: analysis implementation
         # storing in semantics
+        # implicitly creating users.db if not in cwd 
+        news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+        news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+        
+        insert_data = [self.fileID, para_no, summary, keywords_semantics[0], keywords_semantics[1]]
+
+        # insert syntax analysis into DB
+        try:
+            news_cur.execute("INSERT INTO syntax VALUES (?, ?, ?, ?, ?)", insert_data)
+            news_con.commit()
+        except news_con.Error:
+            # Rolling back in case of error
+            # print('user db insertion error')
+            news_con.rollback()
+            raise ValueError("user DB insertion error")
 
         semantics_fail = True
 
@@ -63,15 +97,32 @@ class NLPFile(File):
         else:
             return 0;
 
+        news_con.close()
 
-    def analyzeSentiment(self):
+
+    def analyzeSentiment(self, para_no):
+
+        # sentiment analysis
         # these fields will be stored in the sentiment member of NLPFile
-        positives = []
-        negatives = []
-        neutrals = []
+        sentiment = 'positive'
 
         # to put: analysis implementation
         # storing in sentiment
+        # implicitly creating users.db if not in cwd 
+        news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+        news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+        
+        insert_data = [self.fileID, para_no, sentiment]
+
+        # insert syntax analysis into DB
+        try:
+            news_cur.execute("INSERT INTO syntax VALUES (?, ?, ?)", insert_data)
+            news_con.commit()
+        except news_con.Error:
+            # Rolling back in case of error
+            # print('user db insertion error')
+            news_con.rollback()
+            raise ValueError("user DB insertion error")
 
         sentiment_fail = True
 
@@ -79,6 +130,8 @@ class NLPFile(File):
             raise ValueError("Sentiment analysis failed")
         else:
             return 0;
+
+        news_con.close()
 
 
 def main():

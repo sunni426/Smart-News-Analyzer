@@ -1,28 +1,45 @@
-# import sqlite3
+import sqlite3
 
-# def main():
+def main():
 
-#     def deleteSqliteRecord(id):
-#         try:
-#         sqliteConnection = sqlite3.connect('SQLite_Python.db')
-#         cursor = sqliteConnection.cursor()
-#         print("Connected to SQLite")
+    try:
+        sqliteConnection = sqlite3.connect('news.db')
+        cursor = sqliteConnection.cursor()
+        # print("Connected to SQLite")
 
-#         sql_update_query = """DELETE from SqliteDb_developers where id = ?"""
-#         cursor.execute(sql_update_query, (id,))
-#         sqliteConnection.commit()
-#         print("Record deleted successfully")
+        sql_update_query = """DROP TABLE user"""
+        cursor.execute(sql_update_query)
+        sqliteConnection.commit()
+        # print("User table deleted successfully")
 
-#         cursor.close()
+        sql_update_query = """DROP TABLE file"""
+        cursor.execute(sql_update_query)
+        sqliteConnection.commit()
+        # print("File table deleted successfully")
 
-#     except sqlite3.Error as error:
-#         print("Failed to delete reocord from a sqlite table", error)
-#     finally:
-#         if sqliteConnection:
-#             sqliteConnection.close()
-#             print("sqlite connection is closed")
+        sql_update_query = """DROP TABLE syntax"""
+        cursor.execute(sql_update_query)
+        sqliteConnection.commit()
+        # print("Syntax table deleted successfully")
 
-# deleteSqliteRecord(5)
+        sql_update_query = """DROP TABLE semantic"""
+        cursor.execute(sql_update_query)
+        sqliteConnection.commit()
+        # print("Semantic table deleted successfully")
 
-# if __name__ == "__main__":
-#     main()
+        sql_update_query = """DROP TABLE sentiment"""
+        cursor.execute(sql_update_query)
+        sqliteConnection.commit()
+        # print("Semantic table deleted successfully")
+
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Failed to delete record from a sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            # print("sqlite connection is closed")
+
+if __name__ == "__main__":
+    main()
