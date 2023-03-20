@@ -23,7 +23,9 @@ Design Qs to consider --> us designing our use cases!
     - semantic
 
 DB Implementation Schematic:
+
 <img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
+
 
 * Note: run unit tests sequentially for correct 
 * Note: to start running unit tests (automated in actions script)
@@ -32,11 +34,15 @@ DB Implementation Schematic:
     Step 3: run "pytests"
     
 Sample File Entry
+
 <img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
 
+
 Sample Syntax Parser Entry
+
 <img width="349" alt="file_entry" src="https://user-images.githubusercontent.com/85393645/226230415-335cc4bd-d20a-45e4-a53f-8e98a7333f82.png">
 
+    
     
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
