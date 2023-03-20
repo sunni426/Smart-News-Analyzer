@@ -2,6 +2,9 @@ name: python-package
 
 on: [push]
 
+env:
+  DEVOPS_DIR: news-analyzer-sunni426
+
 jobs:
   build:
 
@@ -21,10 +24,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest
           pip install -r requirements.txt
-        - name: Create database
-        run: |
-          python -m db_del
-          python -m db_init
+      - name: Delete database
+        run: python ${{ env.DEVOPS_DIR }}/db_del.py
+        shell: sh
+      - name: Create database
+        run: python ${{ env.DEVOPS_DIR }}/db_init.py
+        shell: sh
+
       # - name: Lint with flake8
       #   run: |
       #     pip install flake8
