@@ -22,6 +22,9 @@ Design Qs to consider --> us designing our use cases!
     - sentiment
     - semantic
 
+DB Implementation Schematic:
+![alt text](/Users/sunni426/EC530/news-analyzer-sunni426)
+
 ### DESIGN (subject to change upon implementation!)
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
 This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.
