@@ -5,7 +5,6 @@ https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/
 
 
 ## Phase 2: DB Design
-
 Design Qs to consider --> us designing our use cases!
 1) Should we analyze on the spot or not? (consider: storage etc)
     No, store in document-DB for quicker accessing next time.
@@ -43,7 +42,21 @@ Sample Syntax Parser Entry
 <img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
 
 
-    
+
+## Phase 4: Multi-threading & Queues
+Objective: To implement a threading structure to support asynchronous multi-tasking of the PDF and NLP analysis via queues, async calls, and callbacks.
+
+Design:
+1) Implementing a general Thread class
+2) Building a queue to process PDF analysis and NLP analysis
+3) Building support in uploader, nlp, and news ingester modules (APIs) to multi-thread.
+
+// results of multi-threading here //
+
+
+
+
+
     
 ### DESIGN
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
