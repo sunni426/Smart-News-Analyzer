@@ -1,4 +1,4 @@
-# Sunni Lin: EC530 Project 2 Phases 1 & 2
+# Sunni Lin: EC530 Project 2: News Analyzer
 
 ## Phase 1 Project planning: 
 https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/edit
@@ -21,7 +21,7 @@ Design Qs to consider --> us designing our use cases!
     - sentiment
     - semantic
 
-DB Implementation Schematic:
+### DB Implementation Schematic:
 
 <img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
 
@@ -32,25 +32,34 @@ DB Implementation Schematic:
     Step 2: run "python -m db_init" to initialize database
     Step 3: run "pytests"
     
-Sample File Entry
+### Sample File Entry
 
 <img width="349" alt="file_entry" src="https://user-images.githubusercontent.com/85393645/226230415-335cc4bd-d20a-45e4-a53f-8e98a7333f82.png">
 
 
-Sample Syntax Parser Entry
+### Sample Syntax Parser Entry
 
 <img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
 
 
 
 ## Phase 4: Multi-threading & Queues
-Objective: To implement a threading structure to support asynchronous multi-tasking of the PDF and NLP analysis via queues, async calls, and callbacks.
+### Objective: To implement a threading structure to support asynchronous multi-tasking of the PDF and NLP analysis via queues, async calls, and callbacks.
 
-Design:
+### Design:
 1) Implementing a general Thread class
 2) Building a queue to process PDF analysis and NLP analysis
 3) Building support in uploader, nlp, and news ingester modules (APIs) to multi-thread.
 
+### Ideas:
+    - implement request class: general class to take in requests (wih func and func arg)
+    as arguments, create a thread (& keep up with thread id), which will run the actual func
+    such as upload pdf. when it finishes, calls callback func
+    - implement running queue (perhaps in a class or as a global variable)
+    - callback functions with threads (callback, ex. can decrement threads_active)
+    callback as means of communication between main & new threads. will send output etc back
+
+### Results: 
 // results of multi-threading here //
 
 
@@ -60,7 +69,7 @@ Design:
     
 ### DESIGN
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
-This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.
+*This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.*
 1) Users: A relational database is useful here. We store a table of users, identifiable by user_id as the primary key. We have the following tables:
     - userID (primary key)
     - userName
@@ -95,7 +104,7 @@ This design choice is based on the straightforward relationship between users an
     - sentiment (positive, negative, or neutral)
 
 
-Supplementary/Notes
+## Supplementary/Notes
 - Python SQLite tutorial: https://www.tutorialspoint.com/sqlite/sqlite_python.htm
 - some SQL tables allow you to put JSON entries (but some not supported) so if you want multiple entries in a single record (ex. 1 paragraph, multiple keywords)
 SQL: not that good for "search-for-field"
@@ -106,6 +115,5 @@ SQL: not that good for "search-for-field"
 - https://github.com/mongodb-developer/pymongo-fastapi-crud 
 
 
-Other Notes
-- DELETE from syntax WHERE fileID = 0
-- to figure out next time: userID linking to files, whether want fileupload to take filepath or File obj as arg, & actual processing implementation
+## TODOs & Checks!
+1) logging check report

@@ -1,3 +1,5 @@
+
+
 '''
     The GIL is a single lock on the interpreter itself which adds a rule that 
     execution of any Python bytecode requires acquiring the interpreter lock
@@ -21,7 +23,7 @@
 
     - implement logging
 
-    thread1 = requesr()
+    thread1 = request()
     thread1.start()
 
 
