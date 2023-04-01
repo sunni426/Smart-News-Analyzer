@@ -23,59 +23,70 @@ class NewsFile(NLPFile):
         self.name = name
         self.keywords = [] # or some sort of struct? 
 
-    def getKeywords(self, queue):
+    def getKeywords(self):
         # return keywords from this file
+        logging.info("getKeywords executing")
         return self.keywords
     
-    def searchGov(self, queue):
+    def searchGov(self):
         # search for relevant keywords in government opendata
         search_results = []
 
         search_fail = True
+
+        logging.info("searchGov executing")
 
         if(search_fail):
             raise ValueError("Search Gov Fail")
         else:
             return 0;
 
-    def searchWiki(self, queue):
+    def searchWiki(self):
         # search for relevant keywords in Wiki
         search_results = []
 
         search_fail = True
+
+        logging.info("searchWiki executing")
 
         if(search_fail):
             raise ValueError("Search Wiki Fail")
         else:
             return 0;
 
-    def searchMedia(self, queue):
+    def searchMedia(self):
         # search for relevant keywords in media (e.g. NYT)
         search_results = []
 
         search_fail = True
+
+        logging.info("searchMedia executing")
 
         if(search_fail):
             raise ValueError("Search Media Fail")
         else:
             return 0;
 
-    def findDefinitions(self, queue):
+    def findDefinitions(self):
         # find definitions of keywords using open services (OpenAI)
         definition_results = []
 
         find_fail = True
+
+        logging.info("findDefinitions executing")
 
         if(find_fail):
             raise ValueError("Find Definitions Fail")
         else:
             return 0;
 
-    def findContent(self, queue):
+    def findContent(self):
         # discover content from the WEB
         content_finds = []
 
         find_fail = True
+
+        logging.info("findContent executing")
 
         if(find_fail):
             raise ValueError("Find Content Fail")

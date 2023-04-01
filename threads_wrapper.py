@@ -14,8 +14,8 @@ import queue
 import threading
 import time
 import uploader
-import nlp
-import news
+# import nlp
+# import news
 import concurrent.futures
 
 # callback: print completion in uploader/nlp/news_analyzer modules

@@ -7,7 +7,6 @@ import logging
 import logging.config
 import sqlite3
 import unittest
-import functions
 
 
 # to discuss: add a table to store this or not?
@@ -39,7 +38,7 @@ def test_findDefinitions():
 def test_findContent():
     file2 = NewsFile("file2")
     with pytest.raises(ValueError, match="Find Content Fail"):
-        file1.findContent()
+        file2.findContent()
 
 def test_threading():
     file3 = NewsFile("file3")

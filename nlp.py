@@ -33,7 +33,7 @@ class NLPFile(File):
         # parse uploaded file into text format (a string) of class NLPFile, with new field
         pass
     
-    def analyzeSyntax(self, queue):
+    def analyzeSyntax(self):
 
         # implicitly creating users.db if not in cwd 
         news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
@@ -75,13 +75,12 @@ class NLPFile(File):
         # queues & threading setup
         message = "keyword 1 is " + keywords_syntax[0]
         logging.info("analyzeSyntax executing, : %s", message)
-        queue.put(message)
         logging.info("analyzeSyntax received event. Exiting")
 
         news_con.close()
 
 
-    def analyzeSemantics(self, queue, event, para_no):
+    def analyzeSemantics(self, para_no):
         # these fields will be stored in the semantics member of NLPFile
         keywords_semantics = []
         summaries = []
@@ -119,13 +118,12 @@ class NLPFile(File):
         # queues & threading setup
         message = "keyword 1 is " + keywords_semantics[0]
         logging.info("analyzeSemantics executing, : %s", message)
-        queue.put(message)
         logging.info("analyzeSemantics received event. Exiting")
 
         news_con.close()
 
 
-    def analyzeSentiment(self, queue, para_no):
+    def analyzeSentiment(self, para_no):
 
         # sentiment analysis
         # these fields will be stored in the sentiment member of NLPFile
@@ -159,7 +157,6 @@ class NLPFile(File):
         # queues & threading setup
         message = sentiment
         logging.info("analyzeSentiment executing, sentiment is : %s", message)
-        queue.put(message)
         logging.info("analyzeSentiment received event. Exiting")
 
         news_con.close()

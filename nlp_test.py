@@ -7,7 +7,6 @@ import logging
 import logging.config
 import sqlite3
 import unittest
-import functions
 
 
 def test_syntax():
