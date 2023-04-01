@@ -72,9 +72,6 @@ class NLPFile(File):
             return 0;
 
         news_con.close()
-    
-    def callbackSyntax():
-        print('Syntax analysis done')
 
 
     def analyzeSemantics(self, para_no):
@@ -114,9 +111,6 @@ class NLPFile(File):
 
         news_con.close()
 
-    def callbackSemantics():
-        print('Semantic analysis done')
-
 
     def analyzeSentiment(self, para_no):
 
@@ -151,8 +145,9 @@ class NLPFile(File):
 
         news_con.close()
 
-    def callbackSentiment():
-        print('Sentiment analysis done')
+
+def callback_nlp(function_name):
+    print(function_name, " finish")
 
 
 def main():
@@ -162,27 +157,21 @@ def main():
         datefmt="%H:%M:%S")
 
     news_queue = queue.Queue(maxsize=20)
-
     global running = 1 # first thread
-
     news_queue.put_nowait(thread) # put thread ino queue
+    file = NLPFile("file1.txt")
+    News_Thread(news_queue, file.analyzeSyntax(), callback=callback_nlp, callback_args=analyzeSyntax.__name__)
+    news_queue.join() # blocks until queue is empty
 
     # # if want to generate multiple threads for NLP analysis, can use this for loop
     # for _ in range(MAX_THREADS):
     #     News_Thread(news_queue, analyzeSyntax, func_args)
     
-    running 
-    
-
 
 
 if __name__ == "__main__":
     main()
 
-
-
-
-# small implementation:
 
 '''
 

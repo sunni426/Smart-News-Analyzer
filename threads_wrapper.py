@@ -27,6 +27,7 @@ class News_Thread(threading.Thread):
         while True:
             try:
                 work = queue_in.get(timeout=5)
+                # if done, callback
             except queue.Empty:
                 print('Queue is empty')
                 return

@@ -80,3 +80,30 @@ class NewsFile(NLPFile):
             raise ValueError("Find Content Fail")
         else:
             return 0;
+
+
+def callback_news(function_name):
+    print(function_name, " finish")
+
+
+def main():
+    
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+        datefmt="%H:%M:%S")
+
+    news_queue = queue.Queue(maxsize=20)
+    global running = 1 # first thread
+    news_queue.put_nowait(thread) # put thread ino queue
+    news_file = NewsFile("file2.txt")
+    News_Thread(news_queue, news_file.getKeyords(), callback=callback_news, callback_args=getKeyords.__name__)
+    news_queue.join() # blocks until queue is empty
+
+    # # if want to generate multiple threads for NLP analysis, can use this for loop
+    # for _ in range(MAX_THREADS):
+    #     News_Thread(news_queue, analyzeSyntax, func_args)
+    
+
+
+if __name__ == "__main__":
+    main()
