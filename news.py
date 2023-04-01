@@ -24,80 +24,80 @@ class NewsFile(NLPFile):
         self.name = name
         self.keywords = [] # or some sort of struct? 
 
-    def getKeywords(self):
-        # return keywords from this file
-        logging.info("getKeywords executing")
-        return self.keywords
-    
-    def searchGov(self):
-        # search for relevant keywords in government opendata
-        search_results = []
+def getKeywords(file):
+    # return keywords from this file
+    logging.info("getKeywords executing")
+    return file.keywords
 
-        search_fail = True
+def searchGov(file):
+    # search for relevant keywords in government opendata
+    search_results = []
 
-        logging.info("searchGov executing")
+    search_fail = True
 
-        if(search_fail):
-            raise ValueError("Search Gov Fail")
-        else:
-            return 0;
+    logging.info("searchGov executing")
 
-    def searchWiki(self):
-        # search for relevant keywords in Wiki
-        search_results = []
+    if(search_fail):
+        raise ValueError("Search Gov Fail")
+    else:
+        return 0;
 
-        search_fail = True
+def searchWiki(file):
+    # search for relevant keywords in Wiki
+    search_results = []
 
-        logging.info("searchWiki executing")
+    search_fail = True
 
-        if(search_fail):
-            raise ValueError("Search Wiki Fail")
-        else:
-            return 0;
+    logging.info("searchWiki executing")
 
-    def searchMedia(self):
-        # search for relevant keywords in media (e.g. NYT)
-        search_results = []
+    if(search_fail):
+        raise ValueError("Search Wiki Fail")
+    else:
+        return 0;
 
-        search_fail = True
+def searchMedia(file):
+    # search for relevant keywords in media (e.g. NYT)
+    search_results = []
 
-        logging.info("searchMedia executing")
+    search_fail = True
 
-        if(search_fail):
-            raise ValueError("Search Media Fail")
-        else:
-            return 0;
+    logging.info("searchMedia executing")
 
-    def findDefinitions(self):
-        # find definitions of keywords using open services (OpenAI)
-        definition_results = []
+    if(search_fail):
+        raise ValueError("Search Media Fail")
+    else:
+        return 0;
 
-        find_fail = True
+def findDefinitions(file):
+    # find definitions of keywords using open services (OpenAI)
+    definition_results = []
 
-        logging.info("findDefinitions executing")
+    find_fail = True
 
-        if(find_fail):
-            raise ValueError("Find Definitions Fail")
-        else:
-            return 0;
+    logging.info("findDefinitions executing")
 
-    def findContent(self):
-        # discover content from the WEB
-        content_finds = []
+    if(find_fail):
+        raise ValueError("Find Definitions Fail")
+    else:
+        return 0;
 
-        find_fail = True
+def findContent(file):
+    # discover content from the WEB
+    content_finds = []
 
-        logging.info("findContent executing")
+    find_fail = True
 
-        if(find_fail):
-            raise ValueError("Find Content Fail")
-        else:
-            return 0;
+    logging.info("findContent executing")
+
+    if(find_fail):
+        raise ValueError("Find Content Fail")
+    else:
+        return 0;
 
 
-def callback_news(function_name, queue):
-    print(function_name, " finish")
-    logger.info(callback_news.__name__)
+def callback_news(function_name):
+    # print(function_name, " finish")
+    logger.info("%s finish, in callback", function_name)
 
 
 def main():
@@ -110,16 +110,19 @@ def main():
 
     news_queue = queue.Queue(maxsize=20)
     running = 1 # first thread
-    news_queue.put_nowait(running) # put thread into queue
-    news_file1 = NewsFile("file1.txt")
-    News_Thread(news_queue, news_file1.getKeyords(), callback=callback_news, callback_args=getKeyords.__name__) # the start()
-    news_queue.join() # blocks until queue is empty
+    news_file2 = NewsFile("file2.txt")
+    thread2 = News_Thread(func=getKeywords, func_args=news_file2, callback=callback_news, callback_args=getKeywords.__name__) # the start()
+    news_queue.put_nowait(thread2) # put thread into queue
+    thread2.run()
+    news_queue.join() # blocks program termination until queue is empty
     
     # add second thread
     running += 1
     news_queue.put_nowait(running) # put thread into queue
-    news_file2 = NewsFile("file2.txt")
-    News_Thread(news_queue, news_file2.searchWiki(), callback=callback_news, callback_args=searchWiki.__name__) # the start()
+    news_file3 = NewsFile("file3.txt")
+    thread3 = News_Thread(func=searchWiki, func_args=news_file3, callback=callback_news, callback_args=searchWiki.__name__) # the start()
+    news_queue.put_nowait(thread2) # put thread into queue
+    thread3.run()
     news_queue.join() # blocks until queue is empty
 
 

@@ -14,32 +14,32 @@ import unittest
 
 def test_getKeywords():
     file1 = NewsFile("file1")
-    assert (file1.getKeywords() == [])
+    assert (getKeywords(file1) == [])
 
 def test_searchGov():
     file1 = NewsFile("file1")
     with pytest.raises(ValueError, match="Search Gov Fail"):
-        file1.searchGov()
+        searchGov(file1)
 
 def test_searchWiki():
     file1 = NewsFile("file1")
     with pytest.raises(ValueError, match="Search Wiki Fail"):
-        file1.searchWiki()
+        searchWiki(file1)
 
 def test_searchMedia():
     file1 = NewsFile("file1")
     with pytest.raises(ValueError, match="Search Media Fail"):
-        file1.searchMedia()
+        searchMedia(file1)
 
 def test_findDefinitions():
     file1 = NewsFile("file1")
     with pytest.raises(ValueError, match="Find Definitions Fail"):
-        file1.findDefinitions()
+        findDefinitions(file1)
 
 def test_findContent():
     file2 = NewsFile("file2")
     with pytest.raises(ValueError, match="Find Content Fail"):
-        file2.findContent()
+        findContent(file2)
 
 def test_threading():
     file3 = NewsFile("file3")

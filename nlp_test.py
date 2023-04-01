@@ -23,12 +23,12 @@ import unittest
 def test_semantics():
     file2 = NLPFile("file2_nlp")
     with pytest.raises(ValueError, match="Semantics analysis failed"):
-        file2.analyzeSemantics(0)       
+        analyzeSemantics(file2, 0)       
 
 def test_sentiment():
     file3 = NLPFile("file3_nlp")
     with pytest.raises(ValueError, match="Sentiment analysis failed"):
-        file3.analyzeSentiment(0)
+        analyzeSentiment(file3,0)
         
 def test_threading():
     file4 = NLPFile("file4_nlp")

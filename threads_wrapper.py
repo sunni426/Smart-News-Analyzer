@@ -20,22 +20,27 @@ import concurrent.futures
 
 # callback: print completion in uploader/nlp/news_analyzer modules
 class News_Thread(threading.Thread):
-    def __init__(self, queue_in, func, func_args, callback, callback_args, *args, **kwargs):
+    def __init__(self, func, func_args, callback, callback_args, *args, **kwargs):
         self.func = func
         self.func_args = func_args
+        self.callback = callback
+        self.callback_args = callback_args
+        logger.info("%s thread init", func_args)
         super().__init__(*args, **kwargs)
     def run(self):
-        while True:
-            try:
-                work = queue_in.get(timeout=5)
-            except queue_in.empty:
-                print('Queue is empty')
-                return
-            name = func.__name__
-            logger.debug("running %d from queue", name)
-            self.func(self.func_args)
-            if(queue_in.task_done()): # Indicate that a formerly enqueued task is complete
-                callback(callback_args)
+        # while True:
+        # if news_queue.empty:
+        #     print('Queue is empty')
+        #     logger.info("Queue is empty")
+        #     return
+        # else:
+            # work = news_queue.get(timeout=2)
+        logger.info("running %s from queue", self.func_args)
+        self.func(self.func_args)
+        # if(news_queue.task_done()): # Indicate that a formerly enqueued task is complete
+        self.callback(self.callback_args)
+        if news_queue.empty:
+            exit()
             
 
 # callback: a function passed as an argument to another function, which is expected to

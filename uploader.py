@@ -16,6 +16,9 @@ import threading
 import time
 # import db_init # to initialize database (rewrite, must delete prev)
 
+# queue shared by all modules
+news_queue = queue.Queue(maxsize=20) # kind of like a pipeline
+
 
 # creating a logger object
 logger = logging.getLogger('my_logger')
