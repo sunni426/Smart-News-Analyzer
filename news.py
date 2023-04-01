@@ -10,6 +10,9 @@ import cProfile, pstats
 import logging
 import logging.config
 import sqlite3
+import queue
+import threading
+import time
 
 # fileID should be stored internally
 class NewsFile(NLPFile):

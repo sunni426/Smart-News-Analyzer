@@ -83,7 +83,7 @@ Design Qs to consider --> us designing our use cases!
     - fileFormat (pdf, csv, jpeg etc.)
     - lastModified (timestamp)
     - link/path (some sort of connection to the document analysis, perhaps drive/cloud link)
-3) Syntax --> analyze by whole document/file
+3) Syntax: analyze by whole document/file
     - fileID
     - number of paragraphs
     - number of words
@@ -92,13 +92,13 @@ Design Qs to consider --> us designing our use cases!
     - keyword 1
     - keyword 2
     - keyword 3
-4) Semantic --> analyze by paragraph
+4) Semantic:analyze by paragraph
     - fileID
     - paragraph #
     - summary
     - keyword 1
     - keyword 2
-5) Sentiment --> analyze by paragraph
+5) Sentiment: analyze by paragraph
     - fileID
     - paragraph #
     - sentiment (positive, negative, or neutral)
@@ -113,6 +113,7 @@ SQL: not that good for "search-for-field"
 - good correspondence between SQL & NoSQL DB! (& good MongoDB tutorial) https://medium.com/nerd-for-tech/all-basics-of-mongodb-in-10-minutes-baddaf6b6625 
 - https://docs.python.org/3/library/sqlite3.html 
 - https://github.com/mongodb-developer/pymongo-fastapi-crud 
+- https://stackoverflow.com/questions/35160417/threading-queue-working-example 
 
 
 ## TODOs & Checks!
