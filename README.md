@@ -58,6 +58,7 @@ Design Qs to consider --> us designing our use cases!
     - implement running queue (perhaps in a class or as a global variable)
     - callback functions with threads (callback, ex. can decrement threads_active)
     callback as means of communication between main & new threads. will send output etc back
+    - PDF and NLP analyzer will have two individual running queues, of which files will be set as threads_wrapper (implemented class) objects to be multi-threaded. the queues will be passed into as part of the threads_wrapper init
 
 ### Results: 
 // results of multi-threading here //

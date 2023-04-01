@@ -3,6 +3,7 @@
 news feed ingester
 
 '''
+from threads_wrapper import News_Thread
 from nlp import NLPFile
 import numpy as np
 import tracemalloc

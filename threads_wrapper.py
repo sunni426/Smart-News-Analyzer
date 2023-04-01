@@ -4,7 +4,6 @@ general threads wrapper
 
 '''
 
-
 import numpy as np
 import tracemalloc
 import cProfile, pstats
@@ -14,25 +13,29 @@ import sqlite3
 import queue
 import threading
 import time
+import uploader
+import nlp
+import news
 
 # callback: print completion in uploader/nlp/news_analyzer modules
-class threads_news(threading.Thread):
-    def __init__(self, q, func, func_args, callback, callback_args, *args, **kwargs):
+class News_Thread(threading.Thread):
+    def __init__(self, queue_in, func, func_args, callback, callback_args, *args, **kwargs):
         self.func = func
         self.func_args = func_args
         super().__init__(*args, **kwargs)
     def run(self):
         while True:
             try:
-                work = q.get(timeout=5)
+                work = queue_in.get(timeout=5)
             except queue.Empty:
                 print('Queue is empty')
                 return
             self.func(self.func_args)
-            q.task_done()
+            queue_in.task_done()
 
-q = queue.Queue()
-for thread in MAX_THREADS:
-    q.put_nowait(thread) # put thread ino queue
-for _ in range(MAX_THREADS):
-    threads_news(q, func, func_args)
+
+# callback: a function passed as an argument to another function, which is expected to
+# call this callback function in its definition 
+
+
+# some code extracted from here: https://stackoverflow.com/questions/35160417/threading-queue-working-example
