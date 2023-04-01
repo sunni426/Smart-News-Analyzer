@@ -51,24 +51,22 @@ Design Qs to consider --> us designing our use cases!
 2) Building a queue to process PDF analysis and NLP analysis
 3) Building support in uploader, nlp, and news ingester modules (APIs) to multi-thread.
 
-### Ideas:
-    - implement request class: general class to take in requests (wih func and func arg)
+### Ideas & Design:
+    - implement general News_Thread class: general class to take in requests (wih func and func arg)
     as arguments, create a thread (& keep up with thread id), which will run the actual func
-    such as upload pdf. when it finishes, calls callback func
+    such as upload pdf. Upon thread completion, calls callback function
     - implement running queue (perhaps in a class or as a global variable)
     - callback functions with threads (callback, ex. can decrement threads_active)
     callback as means of communication between main & new threads. will send output etc back
-    - PDF and NLP analyzer will have two individual running queues, of which files will be set as threads_wrapper (implemented class) objects to be multi-threaded. the queues will be passed into as part of the threads_wrapper init
+    - PDF and NLP analyzer will have two individual running queues, of which files will be set as News_Thread (implemented class in threads_wrapper.py) objects to be multi-threaded. the queues will be passed into as part of the News_Thread init
+    - each function takes in queue as parameter for News_Thread class to take in
 
 ### Results: 
-// results of multi-threading here //
-
-
-
+*Multi-threaded implementation of NLP and PDF analyzer using a threading queue*
 
 
     
-### DESIGN
+### Architectural Design
 **Relational Database: SQLite for 1) Users (Accounts), 2) File**
 *This design choice is based on the straightforward relationship between users and files that we define: 1 user to many files. The users and files tables are linked by the userID key, and each table contains attributes that can be easily accessed via a query.*
 1) Users: A relational database is useful here. We store a table of users, identifiable by user_id as the primary key. We have the following tables:
@@ -115,7 +113,10 @@ SQL: not that good for "search-for-field"
 - https://docs.python.org/3/library/sqlite3.html 
 - https://github.com/mongodb-developer/pymongo-fastapi-crud 
 - https://stackoverflow.com/questions/35160417/threading-queue-working-example 
+- https://realpython.com/intro-to-python-threading/
 
 
 ## TODOs & Checks!
 1) logging check report
+2) possible improvement: set a cap of # threads running (perhaps block in threads_wrapper if thread_id exceeds cap, send message back? or somehow keep track it is pending until some thread exits and the pending thread can enqueue)
+- implementing / extracting a thread_ID?

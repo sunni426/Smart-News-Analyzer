@@ -16,6 +16,7 @@ import time
 import uploader
 import nlp
 import news
+import concurrent.futures
 
 # callback: print completion in uploader/nlp/news_analyzer modules
 class News_Thread(threading.Thread):
@@ -27,16 +28,26 @@ class News_Thread(threading.Thread):
         while True:
             try:
                 work = queue_in.get(timeout=5)
-                # if done, callback
-            except queue.Empty:
+            except queue_in.empty:
                 print('Queue is empty')
                 return
+            name = func.__name__
+            logging.debug("running %d from queue", name)
             self.func(self.func_args)
-            queue_in.task_done()
-
+            if(queue_in.task_done()): # Indicate that a formerly enqueued task is complete
+                callback(callback_args)
+            
 
 # callback: a function passed as an argument to another function, which is expected to
 # call this callback function in its definition 
+
+
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
+
 
 
 # some code extracted from here: https://stackoverflow.com/questions/35160417/threading-queue-working-example

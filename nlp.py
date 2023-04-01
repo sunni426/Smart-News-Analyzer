@@ -14,6 +14,7 @@ import sqlite3
 import queue
 import threading
 import time
+import concurrent.futures
 
 MAX_THREADS = 5
 
@@ -32,7 +33,7 @@ class NLPFile(File):
         # parse uploaded file into text format (a string) of class NLPFile, with new field
         pass
     
-    def analyzeSyntax(self):
+    def analyzeSyntax(self, queue):
 
         # implicitly creating users.db if not in cwd 
         news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
@@ -71,10 +72,16 @@ class NLPFile(File):
         else:
             return 0;
 
+        # queues & threading setup
+        message = "keyword 1 is " + keywords_syntax[0]
+        logging.info("analyzeSyntax executing, : %s", message)
+        queue.put(message)
+        logging.info("analyzeSyntax received event. Exiting")
+
         news_con.close()
 
 
-    def analyzeSemantics(self, para_no):
+    def analyzeSemantics(self, queue, event, para_no):
         # these fields will be stored in the semantics member of NLPFile
         keywords_semantics = []
         summaries = []
@@ -109,10 +116,16 @@ class NLPFile(File):
         else:
             return 0;
 
+        # queues & threading setup
+        message = "keyword 1 is " + keywords_semantics[0]
+        logging.info("analyzeSemantics executing, : %s", message)
+        queue.put(message)
+        logging.info("analyzeSemantics received event. Exiting")
+
         news_con.close()
 
 
-    def analyzeSentiment(self, para_no):
+    def analyzeSentiment(self, queue, para_no):
 
         # sentiment analysis
         # these fields will be stored in the sentiment member of NLPFile
@@ -142,6 +155,12 @@ class NLPFile(File):
             raise ValueError("Sentiment analysis failed")
         else:
             return 0;
+        
+        # queues & threading setup
+        message = sentiment
+        logging.info("analyzeSentiment executing, sentiment is : %s", message)
+        queue.put(message)
+        logging.info("analyzeSentiment received event. Exiting")
 
         news_con.close()
 
@@ -156,8 +175,9 @@ def main():
     logging.basicConfig(format=format, level=logging.INFO,
         datefmt="%H:%M:%S")
 
-    news_queue = queue.Queue(maxsize=20)
-    global running = 1 # first thread
+    news_queue = queue.Queue(maxsize=20) # kind of like a pipeline
+    # event = threading.Event() # this is more used with ThreadPoolExecutor
+    running = 1 # first thread
     news_queue.put_nowait(thread) # put thread ino queue
     file = NLPFile("file1.txt")
     News_Thread(news_queue, file.analyzeSyntax(), callback=callback_nlp, callback_args=analyzeSyntax.__name__)

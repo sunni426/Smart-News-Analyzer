@@ -6,6 +6,9 @@ import tracemalloc
 import logging
 import logging.config
 import sqlite3
+import unittest
+import functions
+
 
 # to discuss: add a table to store this or not?
 
@@ -34,6 +37,11 @@ def test_findDefinitions():
         file1.findDefinitions()
 
 def test_findContent():
-    file1 = NewsFile("file1")
+    file2 = NewsFile("file2")
     with pytest.raises(ValueError, match="Find Content Fail"):
         file1.findContent()
+
+def test_threading():
+    file3 = NewsFile("file3")
+    if __name__ == '__main__':
+        unittest.main()

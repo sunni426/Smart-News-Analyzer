@@ -14,6 +14,7 @@ import sqlite3
 import queue
 import threading
 import time
+import concurrent.futures
 
 # fileID should be stored internally
 class NewsFile(NLPFile):
@@ -22,11 +23,11 @@ class NewsFile(NLPFile):
         self.name = name
         self.keywords = [] # or some sort of struct? 
 
-    def getKeywords(self):
+    def getKeywords(self, queue):
         # return keywords from this file
         return self.keywords
     
-    def searchGov(self):
+    def searchGov(self, queue):
         # search for relevant keywords in government opendata
         search_results = []
 
@@ -37,7 +38,7 @@ class NewsFile(NLPFile):
         else:
             return 0;
 
-    def searchWiki(self):
+    def searchWiki(self, queue):
         # search for relevant keywords in Wiki
         search_results = []
 
@@ -48,7 +49,7 @@ class NewsFile(NLPFile):
         else:
             return 0;
 
-    def searchMedia(self):
+    def searchMedia(self, queue):
         # search for relevant keywords in media (e.g. NYT)
         search_results = []
 
@@ -59,7 +60,7 @@ class NewsFile(NLPFile):
         else:
             return 0;
 
-    def findDefinitions(self):
+    def findDefinitions(self, queue):
         # find definitions of keywords using open services (OpenAI)
         definition_results = []
 
@@ -70,7 +71,7 @@ class NewsFile(NLPFile):
         else:
             return 0;
 
-    def findContent(self):
+    def findContent(self, queue):
         # discover content from the WEB
         content_finds = []
 
@@ -82,7 +83,7 @@ class NewsFile(NLPFile):
             return 0;
 
 
-def callback_news(function_name):
+def callback_news(function_name, queue):
     print(function_name, " finish")
 
 
@@ -93,11 +94,19 @@ def main():
         datefmt="%H:%M:%S")
 
     news_queue = queue.Queue(maxsize=20)
-    global running = 1 # first thread
-    news_queue.put_nowait(thread) # put thread ino queue
-    news_file = NewsFile("file2.txt")
-    News_Thread(news_queue, news_file.getKeyords(), callback=callback_news, callback_args=getKeyords.__name__)
+    running = 1 # first thread
+    news_queue.put_nowait(running) # put thread into queue
+    news_file = NewsFile("file1.txt")
+    News_Thread(news_queue, news_file.getKeyords(), callback=callback_news, callback_args=getKeyords.__name__) # the start()
     news_queue.join() # blocks until queue is empty
+    
+    # add second thread
+    running += 1
+    news_queue.put_nowait(running) # put thread into queue
+    news_file = NewsFile("file2.txt")
+    News_Thread(news_queue, news_file.searchWiki(), callback=callback_news, callback_args=searchWiki.__name__) # the start()
+    news_queue.join() # blocks until queue is empty
+
 
     # # if want to generate multiple threads for NLP analysis, can use this for loop
     # for _ in range(MAX_THREADS):
