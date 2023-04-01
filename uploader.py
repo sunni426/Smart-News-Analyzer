@@ -8,13 +8,26 @@ import numpy as np
 import tracemalloc
 import cProfile, pstats
 import logging
-import logging.config
+# import logging.config
 import os.path as path # https://docs.python.org/3/library/os.path.html
 import sqlite3
 import queue
 import threading
 import time
-# import db_init
+# import db_init # to initialize database (rewrite, must delete prev)
+
+
+# creating a logger object
+logger = logging.getLogger('my_logger')
+logger.setLevel(logging.DEBUG)
+# creatnig a FileHandler that writes to a file
+file_handler = logging.FileHandler('logger.log')
+file_handler.setLevel(logging.DEBUG)
+# creating a formatter for the log messages
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+# adding the FileHandler to the logger
+logger.addHandler(file_handler)
 
 MAX_USERS = 1000 # max number users the system can support. can change values
 MAX_FILES = 10 # max number files each user can have. can change values
@@ -22,7 +35,6 @@ userid = 1
 userid_list = []
 fileid = 1
 fileid_list = []
-
 
 
 # associated with user
@@ -130,9 +142,8 @@ class File:
 
 
 
-
-
 def main():
+
 
     pass
 
@@ -142,4 +153,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # logger.info('In uploader main') # check logger functionality
     main()

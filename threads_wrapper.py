@@ -13,7 +13,7 @@ import sqlite3
 import queue
 import threading
 import time
-import uploader
+from uploader import *
 # import nlp
 # import news
 import concurrent.futures
@@ -32,7 +32,7 @@ class News_Thread(threading.Thread):
                 print('Queue is empty')
                 return
             name = func.__name__
-            logging.debug("running %d from queue", name)
+            logger.debug("running %d from queue", name)
             self.func(self.func_args)
             if(queue_in.task_done()): # Indicate that a formerly enqueued task is complete
                 callback(callback_args)

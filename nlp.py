@@ -1,10 +1,10 @@
 '''
 
-test nlp analysis
+nlp analysis
 
 '''
 from threads_wrapper import News_Thread
-from uploader import File
+from uploader import *
 import numpy as np
 import tracemalloc
 import cProfile, pstats
@@ -15,6 +15,7 @@ import queue
 import threading
 import time
 import concurrent.futures
+
 
 MAX_THREADS = 5
 
@@ -65,7 +66,7 @@ class NLPFile(File):
             news_con.rollback()
             raise ValueError("user DB insertion error")
 
-        syntax_fail = True
+        syntax_fail = False
 
         if(syntax_fail):
             raise ValueError("Syntax analysis failed")
@@ -74,8 +75,8 @@ class NLPFile(File):
 
         # queues & threading setup
         message = "keyword 1 is " + keywords_syntax[0]
-        logging.info("analyzeSyntax executing, : %s", message)
-        logging.info("analyzeSyntax received event. Exiting")
+        logger.info("analyzeSyntax executing, : %s", message)
+        logger.info("analyzeSyntax received event. Exiting")
 
         news_con.close()
 
@@ -117,8 +118,8 @@ class NLPFile(File):
 
         # queues & threading setup
         message = "keyword 1 is " + keywords_semantics[0]
-        logging.info("analyzeSemantics executing, : %s", message)
-        logging.info("analyzeSemantics received event. Exiting")
+        logger.info("analyzeSemantics executing, : %s", message)
+        logger.info("analyzeSemantics received event. Exiting")
 
         news_con.close()
 
@@ -156,28 +157,28 @@ class NLPFile(File):
         
         # queues & threading setup
         message = sentiment
-        logging.info("analyzeSentiment executing, sentiment is : %s", message)
-        logging.info("analyzeSentiment received event. Exiting")
+        logger.info("analyzeSentiment executing, sentiment is : %s", message)
+        logger.info("analyzeSentiment received event. Exiting")
 
         news_con.close()
 
 
 def callback_nlp(function_name):
     print(function_name, " finish")
+    logger.info(callback_nlp.__name__)
 
 
 def main():
 
-    format = "%(asctime)s: %(message)s"
-    logging.basicConfig(format=format, level=logging.INFO,
-        datefmt="%H:%M:%S")
+    logger.debug('In NLP main')
 
     news_queue = queue.Queue(maxsize=20) # kind of like a pipeline
     # event = threading.Event() # this is more used with ThreadPoolExecutor
     running = 1 # first thread
-    news_queue.put_nowait(thread) # put thread ino queue
-    file = NLPFile("file1.txt")
-    News_Thread(news_queue, file.analyzeSyntax(), callback=callback_nlp, callback_args=analyzeSyntax.__name__)
+    news_queue.put_nowait(running) # put thread ino queue
+    file1 = NLPFile("file1.txt")
+    print(file1)
+    News_Thread(news_queue, file1.analyzeSyntax(), callback=callback_nlp, callback_args=analyzeSyntax.__name__)
     news_queue.join() # blocks until queue is empty
 
     # # if want to generate multiple threads for NLP analysis, can use this for loop
@@ -187,6 +188,7 @@ def main():
 
 
 if __name__ == "__main__":
+    logger.debug('In NLP main')
     main()
 
 

@@ -3,6 +3,7 @@
 news feed ingester
 
 '''
+from uploader import *
 from threads_wrapper import News_Thread
 from nlp import NLPFile
 import numpy as np
@@ -96,26 +97,29 @@ class NewsFile(NLPFile):
 
 def callback_news(function_name, queue):
     print(function_name, " finish")
+    logger.info(callback_news.__name__)
 
 
 def main():
     
-    format = "%(asctime)s: %(message)s"
-    logging.basicConfig(format=format, level=logging.INFO,
-        datefmt="%H:%M:%S")
+    # format = "%(asctime)s: %(message)s"
+    # logging.basicConfig(format=format, level=logging.INFO,
+    #     datefmt="%H:%M:%S")
+
+    logger.debug('In news main')
 
     news_queue = queue.Queue(maxsize=20)
     running = 1 # first thread
     news_queue.put_nowait(running) # put thread into queue
-    news_file = NewsFile("file1.txt")
-    News_Thread(news_queue, news_file.getKeyords(), callback=callback_news, callback_args=getKeyords.__name__) # the start()
+    news_file1 = NewsFile("file1.txt")
+    News_Thread(news_queue, news_file1.getKeyords(), callback=callback_news, callback_args=getKeyords.__name__) # the start()
     news_queue.join() # blocks until queue is empty
     
     # add second thread
     running += 1
     news_queue.put_nowait(running) # put thread into queue
-    news_file = NewsFile("file2.txt")
-    News_Thread(news_queue, news_file.searchWiki(), callback=callback_news, callback_args=searchWiki.__name__) # the start()
+    news_file2 = NewsFile("file2.txt")
+    News_Thread(news_queue, news_file2.searchWiki(), callback=callback_news, callback_args=searchWiki.__name__) # the start()
     news_queue.join() # blocks until queue is empty
 
 

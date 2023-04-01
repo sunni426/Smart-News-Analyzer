@@ -1,5 +1,6 @@
 from re import L
 from news import *
+from uploader import *
 import numpy as np
 import pytest
 import tracemalloc
