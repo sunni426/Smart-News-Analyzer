@@ -62,7 +62,8 @@
 2023-04-01 01:37:49,691 - my_logger - INFO - running <__main__.NewsFile object at 0x7fe3f0481fd0> from queue
 2023-04-01 01:38:16,919 - my_logger - DEBUG - In news main
 2023-04-01 01:38:16,919 - my_logger - INFO - <__main__.NewsFile object at 0x7fb8d8289fd0> thread init
-2023-04-01 01:38:16,919 - my_logger - INFO - running <__main__.NewsFile object at 0x7fb8d8289fd0> from queue2023-04-01 01:41:16,953 - my_logger - DEBUG - In news main
+2023-04-01 01:38:16,919 - my_logger - INFO - running <__main__.NewsFile object at 0x7fb8d8289fd0> from queue
+2023-04-01 01:41:16,953 - my_logger - DEBUG - In news main
 2023-04-01 01:41:16,953 - my_logger - INFO - <__main__.NewsFile object at 0x7fafb050f850> thread init
 2023-04-01 01:41:16,953 - my_logger - INFO - running <__main__.NewsFile object at 0x7fafb050f850> from queue
 2023-04-01 01:41:16,953 - my_logger - INFO - getKeywords finish, in callback

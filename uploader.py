@@ -76,8 +76,9 @@ class User:
         news_con.close()
 
         
-    def setPassword(self):
-        pass
+    # gmail authentication
+    def login(self):
+       pass
     
     def viewFiles(self):
         pass
