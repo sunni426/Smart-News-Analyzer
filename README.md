@@ -21,6 +21,17 @@ Design Qs to consider --> us designing our use cases!
     - sentiment
     - semantic
 
+## FINAL PHASE: Full Module Implementation, Packaging, Containerization, Dockerization, and Pip Install
+*Components:
+1) RESTFUL APIs for Document Uploader, Document Analyzer, Feed Ingester
+2) Database: Relational-based SQLite
+3) Queueing and Multi-threading capacity for asynchronous handle
+4) Packaging: Containerization and Dockerization
+5) Pip install Support Flow
+
+
+
+
 ### DB Implementation Schematic:
 
 <img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
@@ -114,6 +125,8 @@ SQL: not that good for "search-for-field"
 - https://github.com/mongodb-developer/pymongo-fastapi-crud 
 - https://stackoverflow.com/questions/35160417/threading-queue-working-example 
 - https://realpython.com/intro-to-python-threading/
+- https://developers.google.com/calendar/api/quickstart/python
+- 
 
 
 ## TODOs & Checks!

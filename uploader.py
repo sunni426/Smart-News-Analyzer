@@ -14,6 +14,7 @@ import sqlite3
 import queue
 import threading
 import time
+import login
 # import db_init # to initialize database (rewrite, must delete prev)
 
 # queue shared by all modules
@@ -77,8 +78,8 @@ class User:
 
         
     # gmail authentication
-    def login(self):
-       pass
+    def user_login(self):
+       login.main()
     
     def viewFiles(self):
         pass
