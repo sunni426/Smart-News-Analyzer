@@ -23,11 +23,11 @@ Design Qs to consider --> us designing our use cases!
 
 ## FINAL PHASE: Full Module Implementation, Packaging, Containerization, Dockerization, and Pip Install
 *Components:
-1) RESTFUL APIs for Document Uploader, Document Analyzer, Feed Ingester
+1) RESTFUL APIs for Document Uploader, Document Analyzer, Feed Ingester, included with Google login authentication, documentation, error messages, and unit tests
 2) Database: Relational-based SQLite
 3) Queueing and Multi-threading capacity for asynchronous handle
 4) Packaging: Containerization and Dockerization
-5) Pip install Support Flow
+5) Pip installer Support Flow of Packaging [screenshots]
 
 
 

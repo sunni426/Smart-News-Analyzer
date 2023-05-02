@@ -8,7 +8,8 @@ import numpy as np
 import tracemalloc
 import cProfile, pstats
 import logging
-# import logging.config
+import logging.config
+import os
 import os.path as path # https://docs.python.org/3/library/os.path.html
 import sqlite3
 import queue
@@ -24,7 +25,7 @@ news_queue = queue.Queue(maxsize=20) # kind of like a pipeline
 # creating a logger object
 logger = logging.getLogger('my_logger')
 logger.setLevel(logging.DEBUG)
-# creatnig a FileHandler that writes to a file
+# creating a FileHandler that writes to a file
 file_handler = logging.FileHandler('logger.log')
 file_handler.setLevel(logging.DEBUG)
 # creating a formatter for the log messages
@@ -84,22 +85,18 @@ class User:
     def viewFiles(self):
         pass
 
-    def findFile(self, fileID):
-        pass
+    def uploadFile(self, filename):
 
-    def uploadFile(self, userpath):
-        if(path.exists(userpath)):
-        # check upload
-            upload_successful = True
-            if(upload_successful):
-                return 0
-            else:
-                raise ValueError("Upload fail")
-        else:
+        userpath = os.path.abspath(filename)
+
+        try:
+            with open(userpath, "r") as file:
+                content = file.read()
+                # print(content)
+        except FileNotFoundError:
             raise ValueError("File does not exist")
-
-    def login(self):
-        pass
+        except:
+            raise ValueError("Upload fail")
 
  
 class File:

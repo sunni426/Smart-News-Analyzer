@@ -24,7 +24,7 @@ class NLPFile(File):
     def __init__(self, filename):
         self.fileID = 0 # will be assigned
         self.filename = filename
-        self.syntax = [] # or some sort of struct? 
+        self.syntax = []
         self.semantics = []
         self.sentiment = []
         self.keywords = []
