@@ -92,7 +92,7 @@ class User:
         try:
             with open(userpath, "r") as file:
                 content = file.read()
-                # print(content)
+                return content
         except FileNotFoundError:
             raise ValueError("File does not exist")
         except:

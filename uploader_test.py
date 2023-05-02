@@ -6,6 +6,7 @@ import tracemalloc
 import logging
 import logging.config
 import sqlite3
+import os
 
 # import db_init
 
@@ -22,7 +23,7 @@ def test_user_db():
     pytest.raises(ValueError, match="user DB insertion error") or \
     pytest.raises(ValueError, match="Maximum number of users, storage full"):
         user1 = User("Name1")
-        user1.uploadFile(filename)
+        contents = user1.uploadFile(filename)
         
 
 def test_user_init():
@@ -30,9 +31,29 @@ def test_user_init():
     user5 = User("Name5")
         
 
-def test_upload():
-    filename = "logger.log"
+def test_upload_fail():
+    filename = "loggerrrrrr.log"
     user3 = User("Name3")
     with pytest.raises(ValueError, match="File does not exist") or \
     pytest.raises(ValueError, match="Upload fail"):
-        user3.uploadFile(filename)
+        contents = user3.uploadFile(filename)
+
+
+def test_upload_sunny():
+    filename = "logger.log"
+    user6 = User("Name6")
+
+    with open(filename, "w") as file:
+        file.write("test")
+
+    try:
+        with open(filename, "r") as file:
+            contents = user6.uploadFile(filename)
+            self.assertEqual(contents, "test")
+    except FileNotFoundError:
+        pytest.raises(ValueError, match="File does not exist")
+    except:
+        pytest.raises(ValueError, match="Upload fail")
+
+    # cleanup
+    os.remove(filename)
