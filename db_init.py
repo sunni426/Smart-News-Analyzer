@@ -8,10 +8,10 @@ def main():
     news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
 
     # create table user with columns for userID (primary key), username
-    news_cur.execute("CREATE TABLE user(userID, username)")
+    news_cur.execute("CREATE TABLE user(userID PRIMARY KEY, username, numfiles, fileIDs TEXT)")
 
     # create table files with columns for fileID (foreign key), userID (foreign key), amd other fields
-    news_cur.execute("CREATE TABLE file(fileID, userID, filename, fileformat, filepath, lastmodified)")
+    news_cur.execute("CREATE TABLE file(fileID PRIMARY KEY, userID, filename, fileformat, filepath, lastmodified, contents)")
 
     # create table syntax
     news_cur.execute("CREATE TABLE syntax(fileID, totpara, totword, datecreated, summary, keyword1, keyword2, keyword3)")

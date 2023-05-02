@@ -16,6 +16,8 @@ import queue
 import threading
 import time
 import login
+from datetime import date
+import json
 # import db_init # to initialize database (rewrite, must delete prev)
 
 # queue shared by all modules
@@ -42,7 +44,7 @@ fileid = 1
 fileid_list = []
 
 
-# associated with user
+# Entity associated with user; Database initiliaizing associated with User
 class User:
     def __init__(self, name): # let userID be internal to this func and not as a param, 3/19
         
@@ -50,6 +52,11 @@ class User:
         news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
         news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
         global userid 
+
+        self.numfiles = 0
+        self.fileIDs = [-1,2,3]
+        # serialize list into string
+        fileIDs_store = json.dumps(self.fileIDs)
 
         if userid in userid_list:
             userid += 1
@@ -59,13 +66,13 @@ class User:
             # To change the value of a global variable inside a function, refer to the variable by using the global keyword
             userid += 1
             self.name = name
-            insert_data = [self.userID, self.name]
+            insert_data = [self.userID, self.name, self.numfiles, fileIDs_store]
 
             userid_list.append(userid)
             
             # print(f'self.userID: {self.userID}, self.name: {self.name}')
             try:
-                news_cur.execute("INSERT INTO user VALUES (?, ?)", insert_data)
+                news_cur.execute("INSERT OR IGNORE INTO user VALUES (?, ?, ?, ?)", insert_data)
                 news_con.commit()
             except news_con.Error:
                 # Rolling back in case of error
@@ -78,80 +85,129 @@ class User:
         news_con.close()
 
         
-    # gmail authentication
+    # User login module using Gmail authentication
     def user_login(self):
        login.main()
     
+
     def viewFiles(self):
         pass
 
+    # Upload file contents from local directory: create a File object. Assigns fileID and userID
     def uploadFile(self, filename):
-
+    
         userpath = os.path.abspath(filename)
 
         try:
             with open(userpath, "r") as file:
-                content = file.read()
-                return content
+                contents = file.read()
+                fileID = self.numfiles + 1
+                if fileid > MAX_FILES:
+                    raise ValueError("Maximum number of files, storage full")
+                self.numfiles = self.numfiles + 1
+                # initialize file object to store in database
+                file = File(filename, fileID, self.userID, userpath, date.today(), contents)
+
+                return file, contents
+
         except FileNotFoundError:
             raise ValueError("File does not exist")
         except:
             raise ValueError("Upload fail")
 
- 
-class File:
-    def __init__(self, filename):
-        self.fileID = 0 # will be assigned
-        self.userID = 0;  # how to link userID here?
-        self.name = filename
-        self.fileformat = 'pdf'
-        self.filepath = 'a/path'
-        self.lastmodified = 'March-19-2023'
 
-        # implicitly creating users.db if not in cwd 
-        news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
-        news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
-        global fileid 
+    # Store file into database
+    def storeFile(self, filename):
 
-        if fileid in fileid_list:
-            fileid += 1
-        if fileid < MAX_FILES:
-            self.fileID = fileid
-            # userid_list.append(userid)
-            # To change the value of a global variable inside a function, refer to the variable by using the global keyword
-            fileid += 1
-            self.name = filename
-            insert_data = [self.fileID, self.userID, self.filename, self.fileformat, self.filepath, self.lastmodified]
+        try:
+
+            file, contents = self.uploadFile(filename)
+
+            # Create connection to db; implicitly creates users.db if not in cwd 
+            news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
+            news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
+            global fileid 
+        
+            # insert file contents into database
+            insert_data = [file.fileID, file.userID, file.filename, file.fileformat, file.filepath, file.lastmodified, file.contents]
 
             fileid_list.append(fileid)
             
             try:
-                news_cur.execute("INSERT INTO file VALUES (?, ?, ?, ?, ?, ?)", insert_data)
+
+                # Create new entry in DB to store this file
+                news_cur.execute("INSERT OR IGNORE INTO file VALUES (?, ?, ?, ?, ?, ?, ?)", insert_data)
                 news_con.commit()
+
+                # Update user table: increase number of files associated with user by 1
+                news_cur.execute("UPDATE user SET numfiles=? WHERE userID=?", (self.numfiles,'self.userID,'))
+                news_con.commit()
+
+                x = news_cur.execute("SELECT userID FROM user").fetchone()[0]
+                # x = news_cur.execute("SELECT userID FROM user WHERE userID=?",('self.userID',)).fetchone()
+                # x = news_cur.execute("SELECT fileIDs FROM user WHERE userID=?",('self.userID',))
+                # print(f'x:{x}')
+                # return
+
+                # Update user table: add in file id
+                # retrieve list of files by this user from database
+                # file_list = news_cur.execute("SELECT fileIDs FROM user WHERE userID=?",('self.userID',)).fetchone()[0]
+                file_list = news_cur.execute("SELECT fileIDs FROM user").fetchone()[0]
+                print(f'file_list: {file_list}')
+                if self.numfiles == 1: # no file yet
+                    file_list = []
+
+                # deserialize list from string
+                files = json.loads(file_list)
+
+                # else:
+                #     files = ['']
+                    
+                # add new fileID to list
+                files.append(file.fileID)
+                # serialize updated list to a string
+                file_list = json.dumps(files)
+
+                # update entry in database
+                news_cur.execute("UPDATE user SET fileIDs=? WHERE userID=?",(file_list,'self.userID,'))
+                # if self.numfiles > 1:
+                #     news_cur.execute("UPDATE user SET fileIDs=? WHERE userID=?",('file_list','self.userID,'))
+                # else:
+                #     news_cur.execute("INSERT INTO user fileIDs=? WHERE userID=?", ('file_list','self.userID,'))
+                news_con.commit()
+
             except news_con.Error:
-                # Rolling back in case of error
-                # print('user db insertion error')
                 news_con.rollback()
                 raise ValueError("file DB insertion error")
-        else:
-            raise ValueError("Maximum number of files, storage full")
 
-        news_con.close()
+            news_con.close()
+
+        except Exception as e:
+            raise ValueError("Error storing file contents:", e)
+
+
+class File:
+    def __init__(self, filename, fileID, userID, filepath, lastmodified, contents):
+        self.fileID = fileID
+        self.userID = userID
+        self.filename = filename
+        self.fileformat = 'txt'
+        self.filepath = filepath
+        self.lastmodified = lastmodified
+        self.contents = contents
+
 
     def getAccount(self):
         pass
 
 
 
-
 def main():
 
-
-    pass
-
-    # User("Name1")
-    # User("Name2")
-
+    user6 = User("Name6")
+    user6.storeFile("example1.txt")
+    user6.storeFile("example.txt")
+    user6.storeFile("example2.txt")
 
 
 if __name__ == "__main__":

@@ -13,8 +13,10 @@ import os
 # def test_db_init():
 #     db_init.main();
 
+
 def test_login():
     pass
+
 
 def test_user_db():
     filename = "logger.log"
@@ -23,7 +25,7 @@ def test_user_db():
     pytest.raises(ValueError, match="user DB insertion error") or \
     pytest.raises(ValueError, match="Maximum number of users, storage full"):
         user1 = User("Name1")
-        contents = user1.uploadFile(filename)
+        file, contents = user1.uploadFile(filename)
         
 
 def test_user_init():
@@ -48,7 +50,7 @@ def test_upload_sunny():
 
     try:
         with open(filename, "r") as file:
-            contents = user6.uploadFile(filename)
+            file, contents = user6.uploadFile(filename)
             self.assertEqual(contents, "test")
     except FileNotFoundError:
         pytest.raises(ValueError, match="File does not exist")

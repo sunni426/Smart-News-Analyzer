@@ -30,7 +30,9 @@ Design Qs to consider --> us designing our use cases!
 5) Pip installer Support Flow of Packaging [screenshots]
 
 
-
+## Workflow
+[ add installation instructions]
+1. Create database: If running this for the first time: python -m db_init
 
 ### DB Implementation Schematic:
 
