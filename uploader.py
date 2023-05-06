@@ -46,7 +46,7 @@ fileid_list = []
 
 # Entity associated with user; Database initiliaizing associated with User
 class User:
-    def __init__(self, name): # let userID be internal to this func and not as a param, 3/19
+    def __init__(self, name):
         
         # implicitly creating users.db if not in cwd 
         news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
@@ -54,7 +54,7 @@ class User:
         global userid 
 
         self.numfiles = 0
-        self.fileIDs = [-1,2,3]
+        self.fileIDs = []
         # serialize list into string
         fileIDs_store = json.dumps(self.fileIDs)
 
@@ -62,7 +62,7 @@ class User:
             userid += 1
         if userid < MAX_USERS:
             self.userID = userid
-            # userid_list.append(userid)
+            
             # To change the value of a global variable inside a function, refer to the variable by using the global keyword
             userid += 1
             self.name = name
@@ -70,13 +70,12 @@ class User:
 
             userid_list.append(userid)
             
-            # print(f'self.userID: {self.userID}, self.name: {self.name}')
             try:
                 news_cur.execute("INSERT OR IGNORE INTO user VALUES (?, ?, ?, ?)", insert_data)
                 news_con.commit()
             except news_con.Error:
-                # Rolling back in case of error
-                # print('user db insertion error')
+                Rolling back in case of error
+                print('user db insertion error')
                 news_con.rollback()
                 raise ValueError("user DB insertion error")
         else:
@@ -137,43 +136,31 @@ class User:
 
                 # Create new entry in DB to store this file
                 news_cur.execute("INSERT OR IGNORE INTO file VALUES (?, ?, ?, ?, ?, ?, ?)", insert_data)
-                news_con.commit()
+                # news_con.commit()
 
                 # Update user table: increase number of files associated with user by 1
-                news_cur.execute("UPDATE user SET numfiles=? WHERE userID=?", (self.numfiles,'self.userID,'))
-                news_con.commit()
+                news_cur.execute("UPDATE user SET numfiles=? WHERE userID=?", (self.numfiles,self.userID,))
+                # news_con.commit()
 
                 x = news_cur.execute("SELECT userID FROM user").fetchone()[0]
-                # x = news_cur.execute("SELECT userID FROM user WHERE userID=?",('self.userID',)).fetchone()
-                # x = news_cur.execute("SELECT fileIDs FROM user WHERE userID=?",('self.userID',))
-                # print(f'x:{x}')
-                # return
 
                 # Update user table: add in file id
                 # retrieve list of files by this user from database
-                # file_list = news_cur.execute("SELECT fileIDs FROM user WHERE userID=?",('self.userID',)).fetchone()[0]
                 file_list = news_cur.execute("SELECT fileIDs FROM user").fetchone()[0]
-                print(f'file_list: {file_list}')
-                if self.numfiles == 1: # no file yet
-                    file_list = []
 
+                files = []
                 # deserialize list from string
                 files = json.loads(file_list)
 
-                # else:
-                #     files = ['']
-                    
                 # add new fileID to list
                 files.append(file.fileID)
+                files = list(set(files))
+
                 # serialize updated list to a string
                 file_list = json.dumps(files)
 
                 # update entry in database
-                news_cur.execute("UPDATE user SET fileIDs=? WHERE userID=?",(file_list,'self.userID,'))
-                # if self.numfiles > 1:
-                #     news_cur.execute("UPDATE user SET fileIDs=? WHERE userID=?",('file_list','self.userID,'))
-                # else:
-                #     news_cur.execute("INSERT INTO user fileIDs=? WHERE userID=?", ('file_list','self.userID,'))
+                news_cur.execute("UPDATE user SET fileIDs=? WHERE userID=?",(file_list,self.userID,))
                 news_con.commit()
 
             except news_con.Error:
@@ -208,6 +195,7 @@ def main():
     user6.storeFile("example1.txt")
     user6.storeFile("example.txt")
     user6.storeFile("example2.txt")
+    user6.storeFile("requirements.txt")
 
 
 if __name__ == "__main__":
