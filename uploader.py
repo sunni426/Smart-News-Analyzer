@@ -74,7 +74,7 @@ class User:
                 news_cur.execute("INSERT OR IGNORE INTO user VALUES (?, ?, ?, ?)", insert_data)
                 news_con.commit()
             except news_con.Error:
-                Rolling back in case of error
+                # Rolling back in case of error
                 print('user db insertion error')
                 news_con.rollback()
                 raise ValueError("user DB insertion error")

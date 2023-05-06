@@ -2,7 +2,10 @@
 
 news feed ingester
 
+used the 'feedparser' library, which can parse RSS and Atom feeds
+
 '''
+
 from uploader import *
 from threads_wrapper import News_Thread
 from nlp import NLPFile
@@ -16,6 +19,7 @@ import queue
 import threading
 import time
 import concurrent.futures
+import feedparser
 
 # fileID should be stored internally
 class NewsFile(NLPFile):
@@ -24,75 +28,25 @@ class NewsFile(NLPFile):
         self.name = name
         self.keywords = [] # or some sort of struct? 
 
+
+def ingest_feed(url):
+    feed = feedparser.parse(url)
+    for entry in feed.entries:
+        # get title, summary, and link for each entry
+        title = entry.title
+        summary = entry.summary
+        link = entry.link
+
+        print(f'title: {title}')
+        print(f'summary: {summary}')
+        print(f'link: {link}')
+
+
+
 def getKeywords(file):
     # return keywords from this file
     logging.info("getKeywords executing")
     return file.keywords
-
-def searchGov(file):
-    # search for relevant keywords in government opendata
-    search_results = []
-
-    search_fail = True
-
-    logging.info("searchGov executing")
-
-    if(search_fail):
-        raise ValueError("Search Gov Fail")
-    else:
-        return 0;
-
-def searchWiki(file):
-    # search for relevant keywords in Wiki
-    search_results = []
-
-    search_fail = True
-
-    logging.info("searchWiki executing")
-
-    if(search_fail):
-        raise ValueError("Search Wiki Fail")
-    else:
-        return 0;
-
-def searchMedia(file):
-    # search for relevant keywords in media (e.g. NYT)
-    search_results = []
-
-    search_fail = True
-
-    logging.info("searchMedia executing")
-
-    if(search_fail):
-        raise ValueError("Search Media Fail")
-    else:
-        return 0;
-
-def findDefinitions(file):
-    # find definitions of keywords using open services (OpenAI)
-    definition_results = []
-
-    find_fail = True
-
-    logging.info("findDefinitions executing")
-
-    if(find_fail):
-        raise ValueError("Find Definitions Fail")
-    else:
-        return 0;
-
-def findContent(file):
-    # discover content from the WEB
-    content_finds = []
-
-    find_fail = True
-
-    logging.info("findContent executing")
-
-    if(find_fail):
-        raise ValueError("Find Content Fail")
-    else:
-        return 0;
 
 
 def callback_news(function_name):
@@ -101,10 +55,14 @@ def callback_news(function_name):
 
 
 def main():
+
+    # Example usage: ingest the XML feed from NASA: International Space Station Report
+    url = 'https://blogs.nasa.gov/stationreport/feed/'
+    ingest_feed(url)
     
-    # format = "%(asctime)s: %(message)s"
-    # logging.basicConfig(format=format, level=logging.INFO,
-    #     datefmt="%H:%M:%S")
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+        datefmt="%H:%M:%S")
 
     logger.debug('In news main')
 
@@ -130,6 +88,7 @@ def main():
     # for _ in range(MAX_THREADS):
     #     News_Thread(news_queue, analyzeSyntax, func_args)
     
+
 
 
 if __name__ == "__main__":
