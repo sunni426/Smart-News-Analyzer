@@ -24,6 +24,9 @@ Design Qs to consider --> us designing our use cases!
 ## FINAL PHASE: Full Module Implementation, Packaging, Containerization, Dockerization, and Pip Install
 *Components:
 1) RESTFUL APIs for Document Uploader, Document Analyzer, Feed Ingester, included with Google login authentication, documentation, error messages, and unit tests
+    ** File Uploader
+    ** NPL Analysis
+    ** News Ingester: using Python's feedparser library to parse any website that has RSS or Atom feeds and obtain data's title, summary, keywords, link etc
 2) Database: Relational-based SQLite
 3) Queueing and Multi-threading capacity for asynchronous handle
 4) Packaging: Containerization and Dockerization

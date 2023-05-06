@@ -22,5 +22,6 @@ def main():
     # create table semantic
     news_cur.execute("CREATE TABLE semantic(fileID, numpara, summary, keyword1, keyword2)")
 
+
 if __name__ == "__main__":
     main()

@@ -5,6 +5,7 @@ nlp analysis
 '''
 from threads_wrapper import News_Thread
 from uploader import *
+from uploader import File
 import numpy as np
 import tracemalloc
 import cProfile, pstats

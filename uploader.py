@@ -18,6 +18,8 @@ import time
 import login
 from datetime import date
 import json
+# from news import ingest_feed
+
 # import db_init # to initialize database (rewrite, must delete prev)
 
 # queue shared by all modules
@@ -58,8 +60,6 @@ class User:
         # serialize list into string
         fileIDs_store = json.dumps(self.fileIDs)
 
-        if userid in userid_list:
-            userid += 1
         if userid < MAX_USERS:
             self.userID = userid
             
@@ -136,11 +136,9 @@ class User:
 
                 # Create new entry in DB to store this file
                 news_cur.execute("INSERT OR IGNORE INTO file VALUES (?, ?, ?, ?, ?, ?, ?)", insert_data)
-                # news_con.commit()
 
                 # Update user table: increase number of files associated with user by 1
                 news_cur.execute("UPDATE user SET numfiles=? WHERE userID=?", (self.numfiles,self.userID,))
-                # news_con.commit()
 
                 x = news_cur.execute("SELECT userID FROM user").fetchone()[0]
 
@@ -173,6 +171,7 @@ class User:
             raise ValueError("Error storing file contents:", e)
 
 
+
 class File:
     def __init__(self, filename, fileID, userID, filepath, lastmodified, contents):
         self.fileID = fileID
@@ -196,6 +195,9 @@ def main():
     user6.storeFile("example.txt")
     user6.storeFile("example2.txt")
     user6.storeFile("requirements.txt")
+    
+    # url = 'https://blogs.nasa.gov/stationreport/feed/'
+    # user6.user_ingest_feed(url)
 
 
 if __name__ == "__main__":
