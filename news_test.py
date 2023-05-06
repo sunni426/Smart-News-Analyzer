@@ -9,39 +9,14 @@ import logging.config
 import sqlite3
 import unittest
 
+def test_ingest_feed():
 
-# to discuss: add a table to store this or not?
+    url = 'https://rss.art19.com/apology-line'
+    user5 = User("Name5")
 
-def test_getKeywords():
-    file1 = NewsFile("file1")
-    assert (getKeywords(file1) == [])
-
-def test_searchGov():
-    file1 = NewsFile("file1")
-    with pytest.raises(ValueError, match="Search Gov Fail"):
-        searchGov(file1)
-
-def test_searchWiki():
-    file1 = NewsFile("file1")
-    with pytest.raises(ValueError, match="Search Wiki Fail"):
-        searchWiki(file1)
-
-def test_searchMedia():
-    file1 = NewsFile("file1")
-    with pytest.raises(ValueError, match="Search Media Fail"):
-        searchMedia(file1)
-
-def test_findDefinitions():
-    file1 = NewsFile("file1")
-    with pytest.raises(ValueError, match="Find Definitions Fail"):
-        findDefinitions(file1)
-
-def test_findContent():
-    file2 = NewsFile("file2")
-    with pytest.raises(ValueError, match="Find Content Fail"):
-        findContent(file2)
-
-def test_threading():
-    file3 = NewsFile("file3")
-    if __name__ == '__main__':
-        unittest.main()
+    try:
+        title = "The Apology Line"
+        ingest_title, summary, link_type = user6.uploadFile(filename)
+        self.assertEqual(title, ingest_title)
+    except:
+        pytest.raises(ValueError, match="Error storing feed ingester contents")

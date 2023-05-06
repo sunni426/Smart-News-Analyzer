@@ -75,7 +75,6 @@ class User:
                 news_con.commit()
             except news_con.Error:
                 # Rolling back in case of error
-                print('user db insertion error')
                 news_con.rollback()
                 raise ValueError("user DB insertion error")
         else:

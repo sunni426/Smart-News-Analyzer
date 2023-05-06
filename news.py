@@ -114,12 +114,12 @@ def storeFeed(url, user):
 
         except news_con.Error:
             news_con.rollback()
-            raise ValueError("file DB insertion error")
+            raise ValueError("File DB insertion error")
 
         news_con.close()
 
-    except Exception as e:
-        raise ValueError("Error storing feed ingester contents:", e)
+    except Exception:
+        raise ValueError("Error storing feed ingester contents")
 
 
 
