@@ -16,152 +16,156 @@ import queue
 import threading
 import time
 import concurrent.futures
+import nltk
+from textblob import TextBlob
+from collections import Counter
+from nltk.tokenize import sent_tokenize
+from nltk.corpus import stopwords
+from nltk.probability import FreqDist
+import json
+# import gensim
+# from gensim.summarization import summarize
 
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('vader_lexicon')
 
 MAX_THREADS = 5
 
-# fileID should be stored internally
-class NLPFile(File):
-    def __init__(self, filename):
-        self.fileID = 0 # will be assigned
-        self.filename = filename
-        self.syntax = []
-        self.semantics = []
-        self.sentiment = []
-        self.keywords = []
-        File.__init__(self,filename)
+def summarize(contents):
+    # Tokenize the text into sentences
+    sentences = sent_tokenize(contents)
 
-def getTest(file, fileID):
-    # parse uploaded file into text format (a string) of class NLPFile, with new field
-    pass
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    filtered_sentences = [sentence for sentence in sentences if not any(word.lower() in stop_words for word in sentence.split())]
 
-def analyzeSyntax(file):
+    # Get the frequency distribution of words
+    words = nltk.word_tokenize(' '.join(filtered_sentences))
+    fdist = FreqDist(words)
+
+    # Get the most common words
+    top_words = [word for word, _ in fdist.most_common(5)]
+
+    # Generate the summary
+    summary_sentences = []
+    for sentence in filtered_sentences:
+        if any(word.lower() in top_words for word in sentence.split()):
+            summary_sentences.append(sentence)
+    summary = ' '.join(summary_sentences)
+
+
+
+def analyze(file):
+
+    keywords_syntax = []
 
     # implicitly creating users.db if not in cwd 
     news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
     news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
-    
-    # parsing analysis implementation
-    # these fields will be stored in the syntax member of NLPFile after NLP
-    keywords_syntax = ['word1','word2','word3']
-    # names = []
-    # locations = []
-    # institutions = []
-    # address = []
-    paragraph_count = 2
-    word_count = 100
-    date_created = "March-18-2023"
-    summary = "this is the implementation of test nlp of smart doc uploader"
-    # line_count = 0
 
-    insert_data = [file.fileID, paragraph_count, word_count, 
-            date_created, summary, keywords_syntax[0], keywords_syntax[1], keywords_syntax[2]]
+    # get contents of file
+    contents = file.contents
+
+    # tokenize contents
+    sentences = nltk.sent_tokenize(contents)
+    paragraphs = contents.split('\n')
+
+    ############################ ANALYZE SYNTAX ############################
+    # get number of sentences, paragraphs, words
+    words = nltk.word_tokenize(contents)
+    word_count = len(words)
+    sentence_count = len(sentences)
+    paragraph_count = len(paragraphs)
+    blob_all = TextBlob(contents)
+    keywords_all = blob_all.noun_phrases
+    keywords_top3 = [keyword for keyword, count in Counter(keywords_all).most_common(3)]
+    print(f'file.fileID: {file.fileID}')
+    print(f'paragraph_count: {paragraph_count}')
+    print(f'word_count: {word_count}')
+    print(f'date.today(): {date.today()}')
+    print(f'keywords_top3: {keywords_top3}')
+
+    insert_data = [file.fileID, paragraph_count, word_count, date.today(), json.dumps(keywords_top3)]
 
     # insert syntax analysis into DB
     try:
-        news_cur.execute("INSERT INTO syntax VALUES (?, ?, ?, ?, ?, ?, ?, ?)", insert_data)
+        news_cur.execute("INSERT or IGNORE INTO syntax VALUES (?, ?, ?, ?, ?)", insert_data)
         news_con.commit()
     except news_con.Error:
-        # Rolling back in case of error
-        # print('user db insertion error')
         news_con.rollback()
         raise ValueError("user DB insertion error")
 
-    syntax_fail = False
-
-    if(syntax_fail):
-        raise ValueError("Syntax analysis failed")
-    else:
-        return 0;
-
     # queues & threading setup
-    message = "keyword 1 is " + keywords_syntax[0]
+    message = "keyword 1 is " + keywords_top3[0]
     logger.info("analyzeSyntax executing, : %s", message)
     logger.info("analyzeSyntax received event. Exiting")
 
-    news_con.close()
 
-
-def analyzeSemantics(file, para_no):
-    # these fields will be stored in the semantics member of NLPFile
+    ############################ ANALYZE SEMANTICS ############################
     keywords_semantics = []
     summaries = []
     labels = []
 
-    # to put: analysis implementation
-    # storing in semantics
-    # implicitly creating users.db if not in cwd 
-    news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
-    news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
-    
-    summaries.append('this text is about analyzing the meaning of this document.')
-    keywords_semantics.append('meaning')
-    keywords_semantics.append('analysis')
-    # print(f'\n\nsummaries[0]: {summaries[0]}\n\n')
-    insert_data = [file.fileID, para_no, summaries[para_no], keywords_semantics[0], keywords_semantics[1]]
+    for para_no, paragraph in enumerate(paragraphs):
+        blob = TextBlob(paragraph)
+        keywords_para = blob.noun_phrases
+        keywords_para_top5 = [keyword for keyword, count in Counter(keywords_para).most_common(5)]
+        if(blob.sentences):
+            summary = blob.sentences[0].replace('\n', '')
+        else:
+            summary = []
+        print(f'keywords_para: {keywords_para_top5}')
+        print(f'summary: {summary}')
+        print(f'para_no: {para_no}')
+        insert_data = [file.fileID, para_no, str(summary), json.dumps(keywords_para_top5)]
 
-    # insert syntax analysis into DB
-    try:
-        news_cur.execute("INSERT INTO semantic VALUES (?, ?, ?, ?, ?)", insert_data)
-        news_con.commit()
-    except news_con.Error:
-        # Rolling back in case of error
-        # print('user db insertion error')
-        news_con.rollback()
-        raise ValueError("user DB insertion error")
-
-    semantics_fail = True
-
-    if(semantics_fail):
-        raise ValueError("Semantics analysis failed")
-    else:
-        return 0;
+        # insert syntax analysis into DB
+        try:
+            news_cur.execute("INSERT or IGNORE INTO semantic VALUES (?, ?, ?, ?)", insert_data)
+            news_con.commit()
+        except news_con.Error:
+            # Rolling back in case of error
+            # print('user db insertion error')
+            news_con.rollback()
+            raise ValueError("user DB insertion error")
 
     # queues & threading setup
-    message = "keyword 1 is " + keywords_semantics[0]
+    message = "keyword 1 is " + "word" # keywords_para_top5[0]
     logger.info("analyzeSemantics executing, : %s", message)
     logger.info("analyzeSemantics received event. Exiting")
 
-    news_con.close()
 
-
-def analyzeSentiment(file, para_no):
-
+    ############################ ANALYZE SENTIMENT ############################
     # sentiment analysis
-    # these fields will be stored in the sentiment member of NLPFile
-    sentiment = 'positive'
 
-    # to put: analysis implementation
-    # storing in sentiment
-    # implicitly creating users.db if not in cwd 
-    news_con = sqlite3.connect("news.db") # returns a Connection object, represents conntection to on-disk db
-    news_cur = news_con.cursor() # to execute SQL statements, need DB cursor
-    
-    insert_data = [file.fileID, para_no, sentiment]
+    for para_no, paragraph in enumerate(paragraphs):
+        blob = TextBlob(paragraph)
+        sentiment = blob.sentiment.polarity
+        if sentiment > 0:
+            sentiments = ('positive')
+        elif sentiment < 0:
+            sentiments = ('negative')
+        else:
+            sentiments = ('neutral')
 
-    # insert syntax analysis into DB
-    try:
-        news_cur.execute("INSERT INTO sentiment VALUES (?, ?, ?)", insert_data)
-        news_con.commit()
-    except news_con.Error:
-        # Rolling back in case of error
-        # print('user db insertion error')
-        news_con.rollback()
-        raise ValueError("user DB insertion error")
+        insert_data = [file.fileID, para_no, sentiments]
 
-    sentiment_fail = True
+        # insert syntax analysis into DB
+        try:
+            news_cur.execute("INSERT or IGNORE INTO sentiment VALUES (?, ?, ?)", insert_data)
+            news_con.commit()
+        except news_con.Error:
+            news_con.rollback()
+            raise ValueError("user DB insertion error")
 
-    if(sentiment_fail):
-        raise ValueError("Sentiment analysis failed")
-    else:
-        return 0;
-    
     # queues & threading setup
     message = sentiment
     logger.info("analyzeSentiment executing, sentiment is : %s", message)
     logger.info("analyzeSentiment received event. Exiting")
 
     news_con.close()
+
 
 
 def callback_nlp(function_name):
@@ -172,15 +176,21 @@ def callback_nlp(function_name):
 def main():
 
     logger.debug('In NLP main')
+    
+    user7 = User("user7")
+    filename = "text.txt"
+    file, contents = user7.uploadFile(filename)
+    user7.storeFile(filename)
+    analyze(file)
 
-    # news_queue = queue.Queue(maxsize=20) # kind of like a pipeline
-    # event = threading.Event() # this is more used with ThreadPoolExecutor
-    running = 1 # first thread
-    file1 = NLPFile("file1.txt")
-    thread1 = News_Thread(func=analyzeSyntax, func_args=file1, callback=callback_nlp, callback_args=analyzeSyntax.__name__)
-    news_queue.put_nowait(thread1) # put thread ino queue
-    thread1.run()
-    news_queue.join() # blocks until queue is empty
+    # # news_queue = queue.Queue(maxsize=20) # kind of like a pipeline
+    # # event = threading.Event() # this is more used with ThreadPoolExecutor
+    # running = 1 # first thread
+    # file1 = File("file1.txt")
+    # thread1 = News_Thread(func=analyzeSyntax, func_args=file1, callback=callback_nlp, callback_args=analyzeSyntax.__name__)
+    # news_queue.put_nowait(thread1) # put thread ino queue
+    # thread1.run()
+    # news_queue.join() # blocks until queue is empty
 
     # # if want to generate multiple threads for NLP analysis, can use this for loop
     # for _ in range(MAX_THREADS):

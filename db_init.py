@@ -14,13 +14,13 @@ def main():
     news_cur.execute("CREATE TABLE file(fileID PRIMARY KEY, userID, filename, fileformat, filepath, lastmodified, contents)")
 
     # create table syntax
-    news_cur.execute("CREATE TABLE syntax(fileID, totpara, totword, datecreated, summary, keyword1, keyword2, keyword3)")
-
-    # create table sentiment, by paragraph
-    news_cur.execute("CREATE TABLE sentiment(fileID, numpara, sentiment)")
+    news_cur.execute("CREATE TABLE syntax(fileID PRIMARY KEY, totpara, totword, datecreated, keywords TEXT)")
 
     # create table semantic
-    news_cur.execute("CREATE TABLE semantic(fileID, numpara, summary, keyword1, keyword2)")
+    news_cur.execute("CREATE TABLE semantic(fileID, numpara PRIMARY KEY, summary, keywords TEXT)")
+
+    # create table sentiment, by paragraph
+    news_cur.execute("CREATE TABLE sentiment(fileID, numpara PRIMARY KEY, sentiment TEXT)")
 
 
 if __name__ == "__main__":

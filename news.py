@@ -21,6 +21,8 @@ import concurrent.futures
 from datetime import date
 import feedparser
 
+MAX_THREADS = 10
+
 
 # input any url; will check if the webpage has a RSS or Atom feed.
 def ingest_feed(url):
@@ -46,17 +48,9 @@ def ingest_feed(url):
             summary = entry.summary
             keywords = []
 
-            # get kewords
-            if 'tags' in feed.entries:
-                # extract the keywords from the entry
-                for tag in entry.tags:
-                    keyword.append(tag.term)
-            else:
-                print('No keyword found')
-
-            print(f'title: {title}')
-            print(f'summary: {summary}')
-            print(f'link: {link}')
+            # print(f'title: {title}')
+            # print(f'summary: {summary}')
+            # print(f'link: {link}')
             
             return title, summary, link_type
 
@@ -112,6 +106,8 @@ def storeFeed(url, user):
             news_cur.execute("UPDATE user SET fileIDs=? WHERE userID=?",(file_list,user.userID,))
             news_con.commit()
 
+            return file
+
         except news_con.Error:
             news_con.rollback()
             raise ValueError("File DB insertion error")
@@ -131,28 +127,22 @@ def callback_news(function_name):
 def main():
 
     # Example usage: ingest the XML feed from NASA: International Space Station Report
-    # url = 'https://blogs.nasa.gov/stationreport/feed/'
-    # ingest_feed(url)
-
-    
-
     user7 = User("user7")
     url = 'https://blogs.nasa.gov/stationreport/feed/'
     # url = 'https://rss.art19.com/apology-line'
     storeFeed(url, user7)
 
+    # logging and multithreading/queue implementation and testing
+    format = "%(asctime)s: %(message)s"
+    logging.basicConfig(format=format, level=logging.INFO,
+        datefmt="%H:%M:%S")
 
-    # # logging and multithreading/queue implementation and testing
-    # format = "%(asctime)s: %(message)s"
-    # logging.basicConfig(format=format, level=logging.INFO,
-    #     datefmt="%H:%M:%S")
-
-    # logger.debug('In news main')
+    logger.debug('In news main')
 
     # news_queue = queue.Queue(maxsize=20)
     # running = 1 # first thread
-    # news_file2 = NewsFile("file2.txt")
-    # thread2 = News_Thread(func=ingest_feed, func_args=news_file2, callback=callback_news, callback_args=ingest_feed.__name__) # the start()
+    # file1 = storeFeed('https://blogs.nasa.gov/stationreport/feed/', user7)
+    # thread2 = News_Thread(func=ingest_feed, func_args=file1, callback=callback_news, callback_args=ingest_feed.__name__) # the start()
     # news_queue.put_nowait(thread2) # put thread into queue
     # thread2.run()
     # news_queue.join() # blocks program termination until queue is empty
@@ -160,9 +150,9 @@ def main():
     # # add second thread
     # running += 1
     # news_queue.put_nowait(running) # put thread into queue
-    # news_file3 = NewsFile("file3.txt")
-    # thread3 = News_Thread(func=ingest_feed, func_args=news_file3, callback=callback_news, callback_args=ingest_feed.__name__) # the start()
-    # news_queue.put_nowait(thread2) # put thread into queue
+    # file2 = storeFeed('https://rss.art19.com/apology-line', user7)
+    # thread3 = News_Thread(func=ingest_feed, func_args=file2, callback=callback_news, callback_args=ingest_feed.__name__) # the start()
+    # news_queue.put_nowait(thread3) # put thread into queue
     # thread3.run()
     # news_queue.join() # blocks until queue is empty
 

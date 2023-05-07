@@ -24,6 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest
           pip install -r requirements.txt
+          python -m textblob.download_corpora
       - name: Delete database
         run: python db_del.py
         shell: sh
