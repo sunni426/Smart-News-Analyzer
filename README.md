@@ -98,6 +98,7 @@ Design Qs to consider --> us designing our use cases!
 
 ### Results: 
 *Multi-threaded implementation of NLP and PDF analyzer using a threading queue*
+
 Please refer to **logger.log** for some logged multi-threading results.
 
     
