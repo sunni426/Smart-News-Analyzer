@@ -109,11 +109,9 @@ class User:
                 return file, contents
 
         except FileNotFoundError:
-            # raise ValueError("File does not exist")
-            return ValueError("File does not exist")
+            raise ValueError("File does not exist")
         except:
-            # raise ValueError("Upload fail")
-            return ValueError("Upload fail")
+            raise ValueError("Upload fail")
 
 
     # Store file into database
@@ -164,14 +162,12 @@ class User:
 
             except news_con.Error:
                 news_con.rollback()
-                # raise ValueError("file DB insertion error")
-                return ValueError("file DB insertion error")
+                raise ValueError("file DB insertion error")
 
             news_con.close()
 
         except Exception as e:
-            # raise ValueError("Error storing file contents:", e)
-            return ValueError("Error storing file contents:", e)
+            raise ValueError("Error storing file contents:", e)
 
         return "File storage in database successful!"
 
