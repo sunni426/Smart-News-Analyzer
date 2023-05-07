@@ -1,8 +1,39 @@
-# Sunni Lin: EC530 Project 2: News Analyzer
+# Sunni Lin: EC530 Spring 2023 Final Project: News Analyzer
+
+## FINAL PHASE: Full Module Implementation, Packaging, Containerization, Dockerization, and Pip Install
+### Components:
+1) RESTFUL APIs for Document Uploader, Document Analyzer, Feed Ingester, included with Google login authentication, documentation, error messages, and unit tests
+    ** File Uploader
+    ** NPL Analysis: uses the Natural Language Toolkit (NLTK) library and TextBlob library for sentiment analysis
+    ** News Ingester: uses Python's feedparser library to parse any website that has RSS or Atom feeds and obtain data's title, summary, keywords, link etc
+2) Database: Relational-based SQLite
+3) Queueing and Multi-threading capacity for asynchronous handle
+    - Used to support concurrent NLP analysis
+4) GUI: Tkinter
+    Four widgets - a label to display login status, and three buttons for "File Upload", "NLP Analysis", and "Feed Ingester". Initially, all three buttons are disabled. When the user clicks the "Log in!" button, the on_button_click function is called. If the login is successful, it updates the login label with "Login successful!" and enables all three buttons.
+5) Packaging: Using Pip installer Support Flow of Packaging
+    # To install:
+        python setup.py sdist
+        python setup.py install
+        pip install -r requirements.txt dist/news_analyzer-1.0.tar.gz
+    # How to test pip install was correctly done:
+        1. Do pip list: Check if newsAnalyzer is in the list of installed packages
+        2. Check environment and PATH
+        3. Can use the package! Import news_analyzer and use its modules
+
+** DEMO VIDEO: https://drive.google.com/file/d/1bJt3qZWxqWAssk1yy1ymVYLZqqgQhLx4/view?usp=sharing
+
+
+## Workflow
+0. Install package
+1. Create database: If running this for the first time: python -m db_init
+2. Entry point: activate Tkinter GUI: python -m gui
+3. Start using the application!
+
+
 
 ## Phase 1 Project planning: 
 https://docs.google.com/document/d/1bWQMwJF8acSlcFsaNRGe5-e_mNwvOdveBfMwQez6kpI/edit
-
 
 ## Phase 2: DB Design
 Design Qs to consider --> us designing our use cases!
@@ -21,23 +52,6 @@ Design Qs to consider --> us designing our use cases!
     - sentiment
     - semantic
 
-## FINAL PHASE: Full Module Implementation, Packaging, Containerization, Dockerization, and Pip Install
-*Components:
-1) RESTFUL APIs for Document Uploader, Document Analyzer, Feed Ingester, included with Google login authentication, documentation, error messages, and unit tests
-    ** File Uploader
-    ** NPL Analysis: uses the Natural Language Toolkit (NLTK) library and TextBlob library for sentiment analysis
-    ** News Ingester: uses Python's feedparser library to parse any website that has RSS or Atom feeds and obtain data's title, summary, keywords, link etc
-2) Database: Relational-based SQLite
-3) Queueing and Multi-threading capacity for asynchronous handle
-4) GUI: Tkinter
-    four widgets - a label to display login status, and three buttons for "File Upload", "NLP Analysis", and "Feed Ingester". Initially, all three buttons are disabled. When the user clicks the "Log in!" button, the on_button_click function is called. If the login is successful, it updates the login label with "Login successful!" and enables all three buttons.
-5) Packaging: Containerization and Dockerization
-6) Pip installer Support Flow of Packaging [screenshots]
-
-
-## Workflow
-[ add installation instructions]
-1. Create database: If running this for the first time: python -m db_init
 
 ### DB Implementation Schematic:
 
@@ -58,7 +72,6 @@ Design Qs to consider --> us designing our use cases!
 ### Sample Syntax Parser Entry
 
 <img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
-
 
 
 ## Phase 4: Multi-threading & Queues
@@ -133,10 +146,3 @@ SQL: not that good for "search-for-field"
 - https://stackoverflow.com/questions/35160417/threading-queue-working-example 
 - https://realpython.com/intro-to-python-threading/
 - https://developers.google.com/calendar/api/quickstart/python
-- 
-
-
-## TODOs & Checks!
-1) logging check report
-2) possible improvement: set a cap of # threads running (perhaps block in threads_wrapper if thread_id exceeds cap, send message back? or somehow keep track it is pending until some thread exits and the pending thread can enqueue)
-- implementing / extracting a thread_ID?

@@ -1,0 +1,30 @@
+2023-05-07 15:04:40,715 - my_logger - INFO - analyzeSyntax executing, : keyword 1 is q learning
+2023-05-07 15:04:40,715 - my_logger - INFO - analyzeSyntax received event. Exiting
+2023-05-07 15:04:40,726 - my_logger - INFO - analyzeSemantics executing, : keyword 1 is word
+2023-05-07 15:04:40,726 - my_logger - INFO - analyzeSemantics received event. Exiting
+2023-05-07 15:04:40,766 - my_logger - INFO - analyzeSentiment executing, sentiment is : 0.0
+2023-05-07 15:04:40,766 - my_logger - INFO - analyzeSentiment received event. Exiting
+2023-05-07 15:20:31,792 - my_logger - INFO - analyzeSyntax executing, : keyword 1 is q learning
+2023-05-07 15:20:31,792 - my_logger - INFO - analyzeSyntax received event. Exiting
+2023-05-07 15:20:31,804 - my_logger - INFO - analyzeSemantics executing, : keyword 1 is word
+2023-05-07 15:20:31,804 - my_logger - INFO - analyzeSemantics received event. Exiting
+2023-05-07 15:20:41,069 - my_logger - INFO - analyzeSyntax executing, : keyword 1 is q learning
+2023-05-07 15:20:41,069 - my_logger - INFO - analyzeSyntax received event. Exiting
+2023-05-07 15:20:41,076 - my_logger - INFO - analyzeSemantics executing, : keyword 1 is word
+2023-05-07 15:20:41,076 - my_logger - INFO - analyzeSemantics received event. Exiting
+2023-05-07 15:20:57,259 - my_logger - INFO - analyzeSyntax executing, : keyword 1 is q learning
+2023-05-07 15:20:57,259 - my_logger - INFO - analyzeSyntax received event. Exiting
+2023-05-07 15:20:57,269 - my_logger - INFO - analyzeSemantics executing, : keyword 1 is word
+2023-05-07 15:20:57,270 - my_logger - INFO - analyzeSemantics received event. Exiting
+2023-05-07 15:21:25,686 - my_logger - INFO - analyzeSyntax executing, : keyword 1 is q learning
+2023-05-07 15:21:25,686 - my_logger - INFO - analyzeSyntax received event. Exiting
+2023-05-07 15:21:25,691 - my_logger - INFO - analyzeSemantics executing, : keyword 1 is word
+2023-05-07 15:21:25,691 - my_logger - INFO - analyzeSemantics received event. Exiting
+2023-05-07 15:21:25,727 - my_logger - INFO - analyzeSentiment executing, sentiment is : 0.0
+2023-05-07 15:21:25,727 - my_logger - INFO - analyzeSentiment received event. Exiting
+2023-05-07 15:25:10,039 - my_logger - INFO - analyzeSyntax executing, : keyword 1 is q learning
+2023-05-07 15:25:10,040 - my_logger - INFO - analyzeSyntax received event. Exiting
+2023-05-07 15:25:10,055 - my_logger - INFO - analyzeSemantics executing, : keyword 1 is word
+2023-05-07 15:25:10,055 - my_logger - INFO - analyzeSemantics received event. Exiting
+2023-05-07 15:25:10,101 - my_logger - INFO - analyzeSentiment executing, sentiment is : 0.0
+2023-05-07 15:25:10,101 - my_logger - INFO - analyzeSentiment received event. Exiting

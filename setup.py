@@ -1,9 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='newsAnalyzer',
+    name='news_analyzer',
     version='1.0',
     author='Sunni Lin',
+    email='sunni426@bu.edu',
     description='A news analyzer with authentication, uploader, feed ingester, and NLP modules',
     packages=find_packages(),
     install_requires=[
@@ -19,7 +20,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'newsAnalyzer=newsAnalyzer.gui:main'
+            'news_analyzer=news_analyzer.gui:main'
         ]
     }
 )

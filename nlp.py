@@ -149,6 +149,12 @@ def analyze(file):
     # analyze overall sentiment
     blob = TextBlob(contents)
     overall_sentiment = blob.sentiment.polarity
+    if overall_sentiment > 0:
+        overall_sentiment = ('positive')
+    elif overall_sentiment < 0:
+        overall_sentiment = ('negative')
+    else:
+        overall_sentiment = ('neutral')
 
     for para_no, paragraph in enumerate(paragraphs):
         blob = TextBlob(paragraph)
