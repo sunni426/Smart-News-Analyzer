@@ -67,15 +67,15 @@ Design Qs to consider --> us designing our use cases!
     
 ### Sample Syntax Parser Entry
 
-<alt="syntax_entry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_syntax.png">
+<img width="750" alt="syntax_entry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_syntax.png">
 
 ### Sample Semantics Parser Entry
 
-<alt="semantic_dentry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_semantic.png">
+<img width="750" alt="semantic_dentry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_semantic.png">
 
 ### Sample Sentiment Parser Entry
 
-<alt="sentiment_entry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_sentiment.png">
+<img width="477" alt="sentiment_entry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_sentiment.png">
 
 
 ## Phase 4: Multi-threading & Queues
