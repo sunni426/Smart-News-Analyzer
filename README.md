@@ -65,14 +65,17 @@ Design Qs to consider --> us designing our use cases!
     Step 2: run "python -m db_init" to initialize database
     Step 3: run "pytests"
     
-### Sample File Entry
-
-<img width="349" alt="file_entry" src="https://user-images.githubusercontent.com/85393645/226230415-335cc4bd-d20a-45e4-a53f-8e98a7333f82.png">
-
-
 ### Sample Syntax Parser Entry
 
-<img width="714" alt="syntax_entry" src="https://user-images.githubusercontent.com/85393645/226230390-84455f0b-24c0-4bc0-abbc-6059e5f62f41.png">
+<alt="syntax_entry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_syntax.png">
+
+### Sample Semantics Parser Entry
+
+<alt="semantic_dentry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_semantic.png">
+
+### Sample Sentiment Parser Entry
+
+<alt="sentiment_entry" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_sentiment.png">
 
 
 ## Phase 4: Multi-threading & Queues
