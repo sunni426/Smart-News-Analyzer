@@ -244,4 +244,11 @@ ingest_button.config(command=on_ingest_button_click)
 
 
 # Start the GUI main loop
-root.mainloop()
+def main():
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
+
+
