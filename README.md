@@ -56,7 +56,7 @@ Design Qs to consider --> us designing our use cases!
 
 ### DB Implementation Schematic:
 
-<img width="477" alt="db_structure" src="https://user-images.githubusercontent.com/85393645/226218750-db729dcb-bfe4-406a-b301-524ba9d1d901.png">
+<img width="477" alt="db_structure" src="https://github.com/ECE530-2023/news_analyzer/blob/main/db_structure.png">
 
 
 * Note: run unit tests sequentially for correct 
