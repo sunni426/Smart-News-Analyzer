@@ -1,0 +1,8 @@
+README.md
+setup.py
+newsAnalyzer.egg-info/PKG-INFO
+newsAnalyzer.egg-info/SOURCES.txt
+newsAnalyzer.egg-info/dependency_links.txt
+newsAnalyzer.egg-info/entry_points.txt
+newsAnalyzer.egg-info/requires.txt
+newsAnalyzer.egg-info/top_level.txt

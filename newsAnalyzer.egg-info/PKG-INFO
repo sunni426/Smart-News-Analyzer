@@ -1,9 +1,9 @@
 Metadata-Version: 1.0
-Name: news-analyzer
+Name: newsAnalyzer
 Version: 1.0
 Summary: A news analyzer with authentication, uploader, feed ingester, and NLP modules
 Home-page: UNKNOWN
-Author: Your Name
+Author: Sunni Lin
 Author-email: UNKNOWN
 License: UNKNOWN
 Description: UNKNOWN

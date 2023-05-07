@@ -1,3 +1,0 @@
-[console_scripts]
-news_analyzer = news_analyzer.gui:main
-
