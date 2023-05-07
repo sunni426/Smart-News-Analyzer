@@ -21,7 +21,8 @@
         2. Check environment and PATH
         3. Can use the package! Import news_analyzer and use its modules
 
-** DEMO VIDEO: https://drive.google.com/file/d/1bJt3qZWxqWAssk1yy1ymVYLZqqgQhLx4/view?usp=sharing
+## DEMO VIDEO
+https://drive.google.com/file/d/1bJt3qZWxqWAssk1yy1ymVYLZqqgQhLx4/view?usp=sharing
 
 
 ## Workflow
