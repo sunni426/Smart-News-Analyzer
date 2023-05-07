@@ -17,7 +17,7 @@ from googleapiclient.errors import HttpError
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 
-def main():
+def LogIn():
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
     """
@@ -56,6 +56,11 @@ def main():
         # TODO(developer) - Handle errors from gmail API.
         print(f'An error occurred: {error}')
 
+    return True
+
+
+def main():
+    LogIn()
 
 if __name__ == '__main__':
     main()

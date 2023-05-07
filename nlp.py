@@ -58,6 +58,9 @@ def summarize(contents):
 
 def analyze(file):
 
+    first_para_summary = ""
+    overall_sentiment = ""
+
     keywords_syntax = []
 
     # implicitly creating users.db if not in cwd 
@@ -101,7 +104,6 @@ def analyze(file):
     logger.info("analyzeSyntax executing, : %s", message)
     logger.info("analyzeSyntax received event. Exiting")
 
-
     ############################ ANALYZE SEMANTICS ############################
     keywords_semantics = []
     summaries = []
@@ -111,10 +113,15 @@ def analyze(file):
         blob = TextBlob(paragraph)
         keywords_para = blob.noun_phrases
         keywords_para_top5 = [keyword for keyword, count in Counter(keywords_para).most_common(5)]
+
         if(blob.sentences):
             summary = blob.sentences[0].replace('\n', '')
         else:
             summary = []
+
+        if(para_no==0):
+            first_para_summary = summary
+        
         print(f'keywords_para: {keywords_para_top5}')
         print(f'summary: {summary}')
         print(f'para_no: {para_no}')
@@ -138,6 +145,10 @@ def analyze(file):
 
     ############################ ANALYZE SENTIMENT ############################
     # sentiment analysis
+
+    # analyze overall sentiment
+    blob = TextBlob(contents)
+    overall_sentiment = blob.sentiment.polarity
 
     for para_no, paragraph in enumerate(paragraphs):
         blob = TextBlob(paragraph)
@@ -165,6 +176,8 @@ def analyze(file):
     logger.info("analyzeSentiment received event. Exiting")
 
     news_con.close()
+
+    return first_para_summary, keywords_top3, overall_sentiment, paragraph_count, word_count
 
 
 
@@ -201,56 +214,3 @@ def main():
 if __name__ == "__main__":
     logger.debug('In NLP main')
     main()
-
-
-'''
-
-getText(fileID)
-    Returns textID if successful: associated with the file but in the specific text format that this application supports for subsequent NLP analysis
-analyzeSyntax(fileID)
-Returns syntaxID if successful
-    Stores info with fileID, accessible by syntaxID
-analyzeSemantics(fileID)
-Returns semanticsID if successful
-    Stores info with fileID, accessible by semanticsID
-analyzeSentiment(fileID)
-    Returns sentimentID if successful
-Stores info with fileID, accessible by sentimentID
-    display(fileID, mode)
-    mode: syntax, semantics, or sentiment
-
-
-def getText(fileID):
-    if PDF
-    if image
-
-
-# extract PDF XML format https://towardsdatascience.com/how-to-extract-data-from-pdf-forms-using-python-10b5e5f26f70 
-import PyPDF2 as pypdf
-def findInDict(needle, haystack):
-    for key in haystack.keys():
-        try:
-            value=haystack[key]
-        except:
-            continue
-        if key==needle:
-            return value
-        if isinstance(value,dict):            
-            x=findInDict(needle,value)            
-            if x is not None:
-                return x
-pdfobject=open('CTRX_filled.pdf','rb')
-pdf=pypdf.PdfFileReader(pdfobject)
-xfa=findInDict('/XFA',pdf.resolvedObjects)
-xml=xfa[7].getObject().getData()
-
-
-
-# Extract Text from Image using Python - Tesseract is an open source OCR (optical character recognition)
-    with Two Python libraries:
-        pytesseract
-        pillow
-    https://pyshark.com/extract-text-from-image-using-python/ 
-
-
-'''

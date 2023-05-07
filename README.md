@@ -29,8 +29,10 @@ Design Qs to consider --> us designing our use cases!
     ** News Ingester: uses Python's feedparser library to parse any website that has RSS or Atom feeds and obtain data's title, summary, keywords, link etc
 2) Database: Relational-based SQLite
 3) Queueing and Multi-threading capacity for asynchronous handle
-4) Packaging: Containerization and Dockerization
-5) Pip installer Support Flow of Packaging [screenshots]
+4) GUI: Tkinter
+    four widgets - a label to display login status, and three buttons for "File Upload", "NLP Analysis", and "Feed Ingester". Initially, all three buttons are disabled. When the user clicks the "Log in!" button, the on_button_click function is called. If the login is successful, it updates the login label with "Login successful!" and enables all three buttons.
+5) Packaging: Containerization and Dockerization
+6) Pip installer Support Flow of Packaging [screenshots]
 
 
 ## Workflow

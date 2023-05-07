@@ -110,11 +110,13 @@ def storeFeed(url, user):
 
         except news_con.Error:
             news_con.rollback()
+            # raise ValueError("File DB insertion error")
             raise ValueError("File DB insertion error")
 
         news_con.close()
 
     except Exception:
+        # raise ValueError("Error storing feed ingester contents")
         raise ValueError("Error storing feed ingester contents")
 
 
@@ -130,6 +132,7 @@ def main():
     user7 = User("user7")
     url = 'https://blogs.nasa.gov/stationreport/feed/'
     # url = 'https://rss.art19.com/apology-line'
+    title, summary, _ = ingest_feed(url)
     storeFeed(url, user7)
 
     # logging and multithreading/queue implementation and testing
